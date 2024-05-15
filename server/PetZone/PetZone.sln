@@ -3,11 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZone.Api", "PetZone.Api\PetZone.Api.csproj", "{5B5D7926-7011-4FEC-B2FD-A890EBA31AC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetZone.Api", "PetZone.Api\PetZone.Api.csproj", "{5B5D7926-7011-4FEC-B2FD-A890EBA31AC2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23A4A5A8-B2E8-4CBB-99FF-76FFF300B226} = {23A4A5A8-B2E8-4CBB-99FF-76FFF300B226}
+		{D21CF053-FBE5-4E84-9DAA-959AC4456A40} = {D21CF053-FBE5-4E84-9DAA-959AC4456A40}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZone.Domain", "PetZone.Domain\PetZone.Domain.csproj", "{23A4A5A8-B2E8-4CBB-99FF-76FFF300B226}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetZone.Domain", "PetZone.Domain\PetZone.Domain.csproj", "{23A4A5A8-B2E8-4CBB-99FF-76FFF300B226}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZone.Services", "PetZone.Services\PetZone.Services.csproj", "{D21CF053-FBE5-4E84-9DAA-959AC4456A40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetZone.Services", "PetZone.Services\PetZone.Services.csproj", "{D21CF053-FBE5-4E84-9DAA-959AC4456A40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23A4A5A8-B2E8-4CBB-99FF-76FFF300B226} = {23A4A5A8-B2E8-4CBB-99FF-76FFF300B226}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
