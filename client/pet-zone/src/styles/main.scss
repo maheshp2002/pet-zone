@@ -1,0 +1,19 @@
+@import './input/input.scss';
+@import './fileUpload.scss';
+@import './dialog/dialog.scss';
+@import './grid.scss';
+@import './animation.scss';
+@import './color.scss';
+@import './variables.scss';
+@import './input/dropdown.scss';
+
+.required {
+  &::after {
+    content: " *";
+    color: $red;
+  }
+}
+
+.nav-bar {
+  background-color: $dark-color;
+}

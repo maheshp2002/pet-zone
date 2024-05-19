@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-center pe-3 ps-3 w-100">
+    <div class="d-flex flex-wrap pet-container gap-3">
+        <div class="pet-card" *ngFor="let pet of pets">
+            <div class="image-card">
+                <img [src]="pet.image" alt="{{pet.name}}">
+            </div>
+            <div class="pet-info">
+                <h3>{{pet.name}}</h3>
+                <p>Age: {{pet.age}}</p>
+                <p>Size: {{pet.size}}</p>
+                <p>Sex: {{pet.sex}}</p>
+                <a href="#" class="learn-more">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>

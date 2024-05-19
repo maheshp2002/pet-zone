@@ -1,0 +1,66 @@
+.filters-wrapper {
+    position: relative;
+}
+
+.filters-card {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: auto;
+    max-width: 70%;
+    margin: 0 auto;
+    position: relative;
+    top: -30px;
+    /* Adjust this value to place the filter container slightly above the hero section */
+    transition: top 0.3s ease, position 0.3s ease;
+    /* Smooth transition for top and position properties */
+}
+
+.custom-dropdown .p-dropdown {
+    border: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    background: #f8f8f8;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.custom-dropdown .p-dropdown-label-container {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+}
+
+.custom-dropdown .p-dropdown-trigger {
+    border: none;
+    padding: 0.5rem;
+}
+
+.custom-dropdown .p-dropdown .p-dropdown-panel {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #ddd;
+}
+
+.fixed {
+    position: fixed;
+    top: 60px;
+    /* Adjust this value based on the height of the navbar */
+    width: 70%;
+    /* Ensure this matches the filters-card width */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}

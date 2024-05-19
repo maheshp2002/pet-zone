@@ -1,0 +1,34 @@
+@import './variables.scss';
+
+.cheating-dialog {
+
+    .p-fileupload {
+        height: 0;
+    }
+
+    .pi-plus::before {
+        content: "\e942";
+    }
+
+    .pi-upload::before {
+        content: "\e942";
+    }
+
+    .p-button.p-fileupload-choose {
+        width: 33px;
+        height: 33px;
+        background-color: $secondary-color;
+        border-radius: 100%;
+        border: none;
+        transform: translateX(60px) translateY(60px);
+        position: relative;
+
+        &:hover {
+            background-color: $dark-color;
+        }
+    }
+
+    .p-message.p-message-error {
+        display: none;
+    }
+}

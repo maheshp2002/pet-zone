@@ -1,0 +1,22 @@
+<div class="filters-wrapper">
+    <div class="filters-card px-3" appFixedScroll>
+        <div class="dropdown">
+            <p-dropdown [options]="ageOptions" [(ngModel)]="selectedAge" placeholder="Age" [showClear]="true"
+                [filter]="true" [style]="{'width':'150px'}" class="custom-dropdown"></p-dropdown>
+        </div>
+        <div class="dropdown">
+            <p-dropdown [options]="sexOptions" [(ngModel)]="selectedSex" placeholder="Sex" [showClear]="true"
+                [filter]="true" [style]="{'width':'150px'}" class="custom-dropdown"></p-dropdown>
+        </div>
+        <div class="dropdown">
+            <p-dropdown [options]="sizeOptions" [(ngModel)]="selectedSize" placeholder="Size" [showClear]="true"
+                [filter]="true" [style]="{'width':'150px'}" class="custom-dropdown"></p-dropdown>
+        </div>
+        <div class="dropdown w-50">
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+            <p-dropdown [options]="sortOptions" [(ngModel)]="selectedSort" placeholder="Sort by" [showClear]="true"
+                [filter]="true" [style]="{'width':'150px'}" class="custom-dropdown"></p-dropdown>
+        </div>
+    </div>
+</div>
