@@ -3,7 +3,7 @@
 namespace PetZone.Api.Areas.Admin;
 
 [Area("Admin")]
-[Route("api/[area]/[controller]")]
+[Route("api/[area]")]
 [ApiController]
 public class AdminControllerBase : ControllerBase
 {

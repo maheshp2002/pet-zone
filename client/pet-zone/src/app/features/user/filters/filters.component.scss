@@ -1,3 +1,5 @@
+@import '/src/styles/variables.scss';
+
 .filters-wrapper {
     position: relative;
 }
@@ -63,4 +65,15 @@
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
+}
+
+.search-icon {
+    color: grey;
+    position: absolute;
+    cursor: pointer;
+    transform: translateY(0px) translateX(180px) !important;
+
+    &:hover {
+        color: $secondary-color;
+    }
 }

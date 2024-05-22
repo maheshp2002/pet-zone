@@ -53,3 +53,20 @@
         background-color: white;
     }
 }
+
+.search-input-control {
+    position: relative;
+    padding: 15px;
+
+    input {
+        height: 30px;
+        border: none;
+        padding: 15px;
+
+        &:focus,
+        &:active {
+            outline: none;
+            border: none;
+        }
+    }
+}

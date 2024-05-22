@@ -8,43 +8,41 @@ import { ILoginDto, IRegisterDto, IResetPasswordDto } from '../interfaces';
 })
 export class AuthenticationService {
 
-    userUrl = "https://localhost:7116/api/user/authentication";
-    adminUrl = "https://localhost:7116/api/admin/authentication";
-    sellerUrl = "https://localhost:7116/api/seller/authentication";
+    authenticationUrl = "https://localhost:7224/api/authentication";
 
     constructor(private http: HttpClient) {
 
     }
 
     login(model: ILoginDto) {
-        return this.http.post(this.userUrl + "/login", model);
+        return this.http.post(this.authenticationUrl + "/login", model);
     }
 
     register(model: IRegisterDto) {
-        return this.http.post(this.userUrl + "/register", model);
+        return this.http.post(this.authenticationUrl + "/register", model);
     }
 
     getSellerProfile(sellerId: string) {
-        return this.http.get(this.userUrl + "/seller-profile/" + sellerId);
+        return this.http.get(this.authenticationUrl + "/seller-profile/" + sellerId);
     }
 
     getAdminProfile(adminId: string) {
-        return this.http.get(this.userUrl + "/admin-profile/" + adminId);
+        return this.http.get(this.authenticationUrl + "/admin-profile/" + adminId);
     }
 
     getUserProfile(userId: string) {
-        return this.http.get(this.userUrl + "/user-profile/" + userId);
+        return this.http.get(this.authenticationUrl + "/user-profile/" + userId);
     }
 
     uploadImage(file: FormData) {        
-        return this.http.post<IResponse>(this.userUrl + "/upload-image", file);
+        return this.http.post<IResponse>(this.authenticationUrl + "/upload-image", file);
     }
 
     forgotPassword(email: string) {        
-        return this.http.post<IResponse>(this.userUrl + "/forgot-password", { email });
+        return this.http.post<IResponse>(this.authenticationUrl + "/forgot-password", { email });
     }
 
     resetPassword(dto: IResetPasswordDto) {        
-        return this.http.put<IResponse>(this.userUrl + "/change-password", dto);
+        return this.http.put<IResponse>(this.authenticationUrl + "/change-password", dto);
     }
 }

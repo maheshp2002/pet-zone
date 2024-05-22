@@ -7,6 +7,7 @@ using PetZone.Service.Data;
 using System.Text;
 using PetZone.Domain.Models;
 using PetZone.Services.Email;
+using PetZone.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +61,7 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-//builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<MailService>();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
 

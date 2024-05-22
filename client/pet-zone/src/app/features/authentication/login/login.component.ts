@@ -6,6 +6,7 @@ import { Messages } from 'src/app/core/common/message';
 import { Constants } from 'src/app/core/configs/app.config';
 import { ToastTypes } from 'src/app/core/enums';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { PreLoaderService } from 'src/app/core/services/preloader.service';
 import { TokenHelper } from 'src/app/core/utilities/helpers/token.helper';
 import { PasswordValidator } from 'src/app/core/validators/password.validator';
 
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
     private readonly router: Router,
     private readonly validator: PasswordValidator,
     private readonly toast: MessageService,
-    private tokenHelper: TokenHelper
+    private tokenHelper: TokenHelper,
+    private readonly preloaderService: PreLoaderService
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +62,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.preloaderService.show()
     this.service.login(this.loginForm.value).subscribe({
       next: (response: any) => {
         this.tokenHelper.setToken(response.result);
@@ -76,12 +79,21 @@ export class LoginComponent implements OnInit {
         }
       },
 
-      error: () => {
-        this.toast.add({
-          severity: ToastTypes.ERROR,
-          summary: 'An error occurred during login'
-        });
+      error: (errorResponse) => {
+        const errorObject = errorResponse.error;
+
+        // Iterate through the keys in the error object
+        for (const key in errorObject) {
+          if (Object.prototype.hasOwnProperty.call(errorObject, key)) {
+            const errorMessage = errorObject[key];
+            this.toast.add({
+              severity: ToastTypes.ERROR,
+              summary: errorMessage
+            });
+          }
+        }
       }
     });
+    this.preloaderService.hide();
   }
 }

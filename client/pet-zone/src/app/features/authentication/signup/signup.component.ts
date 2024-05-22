@@ -64,7 +64,6 @@ export class SignupComponent implements OnInit{
     this.preLoaderService.show();
     this.service.register(this.registerForm.value).subscribe({
       next: () => {
-        this.preLoaderService.hide();
         this.router.navigateByUrl('');
         this.toast.add({
           severity: ToastTypes.SUCCESS,
@@ -76,13 +75,21 @@ export class SignupComponent implements OnInit{
         });
     },
 
-    error: () => {
-      this.preLoaderService.hide();
-      this.toast.add({
-        severity: ToastTypes.ERROR,
-        summary: 'An error occurred during registration'
-      });
+    error: (errorResponse) => {
+      const errorObject = errorResponse.error;
+
+      // Iterate through the keys in the error object
+      for (const key in errorObject) {
+        if (Object.prototype.hasOwnProperty.call(errorObject, key)) {
+          const errorMessage = errorObject[key];
+          this.toast.add({
+            severity: ToastTypes.ERROR,
+            summary: errorMessage
+          });
+        }
+      }
     }
-  })
+  });
+  this.preLoaderService.hide();
 }
 }

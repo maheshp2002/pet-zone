@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿namespace PetZone.Service.Dto;
 
-namespace PetZone.Domain.Models;
-
-public class ApplicationUser : IdentityUser
+public class RegisterDto
 {
     public string? Name { get; set; }
 
-    public bool IsAdmin { get; set; }
+    public string? Email { get; set; }
 
-    public string? ProfileImage {  get; set; }
+    public string? Password { get; set; }
+
+    public int Role { get; set; }
 
     public string? BuildingName { get; set; }
 
@@ -21,4 +21,7 @@ public class ApplicationUser : IdentityUser
     public string? Country { get; set; }
 
     public int? PinCode { get; set; }
+
+    public string? PhoneNumber { get; set; }
+
 }
