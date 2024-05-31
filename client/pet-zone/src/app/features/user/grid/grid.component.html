@@ -2,14 +2,14 @@
     <div class="d-flex flex-wrap pet-container gap-3">
         <div class="pet-card" *ngFor="let pet of pets">
             <div class="image-card">
-                <img [src]="pet.image" alt="{{pet.name}}">
+                <img [src]="pet.images[0]" alt="{{pet.images[0]}}">
             </div>
             <div class="pet-info">
-                <h3>{{pet.name}}</h3>
+                <h3>{{pet.breed}}</h3>
                 <p>Age: {{pet.age}}</p>
-                <p>Size: {{pet.size}}</p>
-                <p>Sex: {{pet.sex}}</p>
-                <a href="#" class="learn-more">Learn more</a>
+                <p>Price: {{pet.price}}</p>
+                <p>Availability: {{pet.availability}}</p>
+                <button (click)="onClick(pet.petId)" class="learn-more">Learn more</button>
             </div>
         </div>
     </div>

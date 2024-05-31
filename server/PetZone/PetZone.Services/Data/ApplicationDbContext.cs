@@ -77,4 +77,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
+    public DbSet<PetDetails> PetDetails { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
+
+    public DbSet<Breed> Breeds { get; set; }
+
+    public DbSet<Chat> Chats { get; set; }
+
+    public DbSet<Message> Messages { get; set; }
 }

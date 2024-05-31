@@ -1,0 +1,20 @@
+<form class="h-100 p-3" [formGroup]="chatListForm">
+    <div class="back-button" (click)="onBackButtonClick()"><i class="pi pi-arrow-left"></i></div>
+    <div class="chat-form pt-3 pe-5">
+        <div class="search-input pb-5">
+            <input formControlName="search" placeholder="Search..." type="text" class="w-100"
+                id="user-job-search-search">
+            <a [ngClass]="chatListForm.get('search')?.value ? 'pi-times fs-18' : 'pi-search fs-23'"
+                class="search-icon pi text-decoration-none" (click)="cancelSearch()" id="serach-icon"></a>
+        </div>
+        <div *ngFor="let chatList of chatLists">
+            <div *ngIf="!chatList.isRemoved" class="chat-item mt-2" (click)="onChatSelect(chatList)">
+                <img [src]="chatList.icon" alt="avatar" class="avatar" />
+                <div class="chat-info">
+                    <h5>{{ chatList.chatName }}</h5>
+                </div>
+                <span class="timestamp">{{ chatList.createdAt }}</span>
+            </div>
+        </div>
+    </div>
+</form>

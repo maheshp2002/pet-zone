@@ -1,0 +1,32 @@
+<div class="chat-window d-flex flex-column h-100">
+    <div class="header">
+        <img [src]="chat.icon" alt="avatar" class="avatar" />
+        <div class="chat-info">
+            <h5>{{ chat.chatName }}</h5>
+        </div>
+    </div>
+    <div class="messages">
+        <ng-container *ngFor="let group of groupedMessages">
+            <div class="date-divider">{{ group.date }}</div>
+            <div *ngFor="let message of group.messages" [ngClass]="{'sent': message.isSenderUser, 'received': !message.isSenderUser}">
+                <p>{{ message.content }}</p>
+                <span class="timestamp">{{ message.date + ', ' + message.time }}</span>
+            </div>
+        </ng-container>
+    </div>
+    <form [formGroup]="chatForm" class="input-area" (ngSubmit)="onSubmit()">
+        <div *ngIf="!chat.isBlocked && !chat.isRemoved" class="d-flex w-100 justify-content-center gap-2">
+            <p-fileUpload #fileUpload
+                [disabled]=" chatForm.get('message')?.value != '' || chatForm.get('file')?.dirty == true" #imageUpload
+                (onSelect)="onFileSelect($event)" mode="basic" name="file" uploadLabel="" [customUpload]="true"
+                [maxFileSize]="fileSizeInBytes"></p-fileUpload>
+            <div class="chat-input">
+                <textarea rows="5" class="message-input" pInputTextarea [autoResize]="true"
+                    placeholder="Type a message..." formControlName="message"></textarea>
+                <a class="cancel-upload" *ngIf="chatForm.get('file')?.dirty == true" (click)="onCancelSelect()"><i
+                        class="pi pi-times"></i></a>
+            </div>
+            <button pButton type="submit" icon="pi pi-send"></button>
+        </div>
+    </form>
+</div>

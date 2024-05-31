@@ -1,0 +1,43 @@
+<div class="top-container">
+    <div class="pet-background-container">
+        <img [src]="petDetails.images[0]" alt="Pet Image" class="pet-background-image">
+    </div>
+</div>
+<div class="background-black-fade w-50 h-100">
+    <div class="pet-details-container p-3 me-4">
+        <ul>
+            <li>Age: {{petDetails.age}}</li>
+            <li>Breed: {{petDetails.breed}}</li>
+            <li>Sex: {{petDetails.sex}}</li>
+            <li>Color: {{petDetails.color}}</li>
+            <li>Seller Name: {{petDetails.sellerName}}</li>
+            <li>Seller Address: {{petDetails.sellerAddress}}</li>
+            <li>Price: {{petDetails.price}}</li>
+            <li class="mt-3" [ngClass]="petDetails.availability != 0 ? 'text-success' : 'text-danger'">Availability: {{petDetails.availability}}</li>
+        </ul>
+        <div class="w-100 d-flex justify-content-end">
+            <a (click)="onContactClick()" class="contact-button text-decoration-none contact-seller d-flex align-items-center">Contact seller <i class="pi pi-angle-right"></i></a>
+        </div>
+    </div>
+</div>
+<div class="scroll-down d-flex justify-content-center align items-center" (click)="scrollToContent()">
+    <i class="pi pi-angle-down"></i>
+</div>
+<div class="space"></div>
+<div class="content d-flex">
+    <div class="d-flex justify-content-center align-items-center gap-3 w-75">
+        <div class="image-container">
+            <img [src]="petDetails.images[1]" alt="Pet Image">
+        </div>
+        <div class="image-container">
+            <img [src]="petDetails.images[2]" alt="Pet Image">
+        </div>
+        <div class="image-container">
+            <img [src]="petDetails.images[3]" alt="Pet Image">
+        </div>
+    </div>
+    <div class="w-25 d-flex flex-column justify-content-center p-2">
+        <h3>Details</h3>
+        <p>{{petDetails.description}}</p>
+    </div>
+</div>

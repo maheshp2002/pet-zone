@@ -147,7 +147,7 @@ public class AccountService
         await _db.Users.AddAsync(user);
         await _db.SaveChangesAsync();
 
-        await _userManager.AddToRoleAsync(user, existingUsersCount == 0 ? "Admin" : dto.Role == 0 ? "User" : "Seller");
+        await _userManager.AddToRoleAsync(user, existingUsersCount == 0 ? "Admin" : !dto.Role ? "User" : "Seller");
 
         response.Result = new UserViewDto
         {
@@ -209,7 +209,7 @@ public class AccountService
             Name = user.Name,
             Email = user.Email,
             IsAdmin = user.IsAdmin,
-            ProfileImage = user.ProfileImage == null || user.ProfileImage == "" ? "" : "https://localhost:7163/" + user.ProfileImage,
+            ProfileImage = user.ProfileImage == null || user.ProfileImage == "" ? "" : "https://localhost:7224/" + user.ProfileImage,
             BuildingName = user.BuildingName,
             StreetAddress = user.StreetAddress,
             City = user.City,
@@ -301,23 +301,51 @@ public class AccountService
 
     }
 
-    // Handle jwt token decode
-    private (string userId, string role) ExtractUserIdAndRoleFromToken(string token)
+    public async Task<ServiceResponse<string>> UpdateProfile(UpdateProfileDto dto)
     {
-        var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-        var jwtToken = tokenHandler.ReadToken(token) as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
+        var response = new ServiceResponse<string>();
 
-        if (jwtToken != null)
+        var user = _db.ApplicationUser.FirstOrDefault(m => m.Id == dto.Id && !m.IsAdmin);
+
+        if (user == null)
         {
-            var userIdClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
-
-            if (userIdClaim != null && roleClaim != null)
-            {
-                return (userIdClaim.Value, roleClaim.Value);
-            }
+            response.AddError("profile update error", "Unable to update user profile");
+            return response;
         }
 
-        return (string.Empty, string.Empty);
+        if (dto.ProfileImage != null)
+        {
+            if (user.ProfileImage != null && user.ProfileImage != "")
+            {
+                File.Delete(user.ProfileImage);
+            }
+
+            string fileName = dto.ProfileImage.FileName;
+            string fileExtension = Path.GetExtension(fileName).ToLower();
+
+            string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+            string uploadsDir = Path.Join("Images", uniqueFileName);
+
+            using (var fileStream = new FileStream(uploadsDir, FileMode.Create))
+            {
+                await dto.ProfileImage.CopyToAsync(fileStream);
+            }
+
+            user.ProfileImage = uploadsDir;
+        }
+
+        user.Name = dto.Name;
+        user.BuildingName = dto.BuildingName;
+        user.StreetAddress = dto.StreetAddress;
+        user.City = dto.City;
+        user.State = dto.State;
+        user.Country = dto.Country;
+        user.PinCode = dto.PinCode;
+        user.PhoneNumber = dto.PhoneNumber;
+
+        response.Result = "Profile Updated successfully";
+        await _db.SaveChangesAsync();
+
+        return response;
     }
 }

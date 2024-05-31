@@ -16,6 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FiltersComponent } from './filters/filters.component';
 import { GridComponent } from './grid/grid.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { PetDetailsComponent } from './pet-details/pet-details.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DropdownModule } from 'primeng/dropdown';
     HomepageComponent,
     NavbarComponent,
     GridComponent,
-    FiltersComponent
+    FiltersComponent,
+    PetDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { DropdownModule } from 'primeng/dropdown';
     TooltipModule,
     FontAwesomeModule,
     FileUploadModule,
-    DropdownModule
+    DropdownModule,
+    
   ],
   providers: [ConfirmationService]
 })

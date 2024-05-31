@@ -2,55 +2,61 @@
 
 .form-input-control {
     position: relative;
-    padding: 15px;
+    margin-bottom: 20px;
+    height: 70px;
 
-    input {
-        height: 56px;
-        border: 1px solid #7F7F7F;
-        border-radius: 5px;
-        padding: 15px;
+    .input {
+        width: 660px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid grey;
+        border-radius: 8px;
 
-        &:focus,
-        &:active {
-            outline: none;
-            box-shadow: 0 0 1px $dark-color;
-            border: 1px solid $dark-color;
+        &::placeholder {
+            visibility: hidden;
         }
 
-        &.ng-dirty.ng-invalid {
-            border-color: red;
-            box-shadow: none;
+        &:focus {
+            outline: none;
+            border-color: darkblue;
+
+            &::placeholder {
+                visibility: visible;
+            }
         }
     }
 
-    textarea {
-        max-height: 100px;
-        border: 1px solid #7F7F7F;
-        border-radius: 5px;
-        padding: 15px;
-
-        &:focus,
-        &:active {
-            outline: none;
-            box-shadow: 0 0 1px $dark-color;
-            border: 1px solid $dark-color;
-        }
-
-        &.ng-dirty.ng-invalid {
-            border-color: red;
-            box-shadow: none;
-        }
-    }
-
-    label {
+    .eye-icon {
+        text-decoration: none;
+        color: grey;
         position: absolute;
-        padding: 4px;
-        top: 1px;
-        left: 15px;
-        font-size: 12px;
-        color: #7F7F7F;
-        font-weight: bold;
-        background-color: white;
+        transform: translateX(390px) translateY(-30px);
+        cursor: pointer;
+    }
+
+    .label {
+        padding: 0 3px;
+        pointer-events: none;
+        position: absolute;
+        left: 1rem;
+        top: .75rem;
+        color: grey;
+        transition: 0.2s;
+        transition-timing-function: ease;
+        transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        background: white;
+    }
+
+    input:focus+label,
+    input:not(:placeholder-shown)+label {
+        opacity: 1;
+        transform: scale(0.75) translateY(-2.3rem) translateX(-1rem);
+    }
+}
+
+.address-form {
+    input {
+        width: 200px !important;
     }
 }
 
@@ -68,5 +74,20 @@
             outline: none;
             border: none;
         }
+    }
+}
+
+.user-toggle {
+    .p-button {
+        width: 100px;
+        height: 30px;
+    }
+}
+
+.p-togglebutton.p-button.p-highlight {
+    background-color: $dark-color !important;
+
+    &:hover {
+        background-color: $secondary-color;
     }
 }

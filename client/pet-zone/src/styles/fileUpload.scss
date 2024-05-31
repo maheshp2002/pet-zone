@@ -32,3 +32,17 @@
         display: none;
     }
 }
+
+.input-area {
+    .pi-plus::before {
+        content: "\e97b";
+    }
+
+    .selected {
+        background-color: grey !important;
+    }
+
+    .pi-upload::before {
+        content: "\e97b";
+    }
+}

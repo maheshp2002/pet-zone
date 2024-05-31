@@ -1,0 +1,103 @@
+.top-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+
+    .pet-background-container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    .pet-background-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: filter 0.3s ease;
+    }
+}
+
+.space {
+    height: 100vh;
+}
+
+.content {
+    position: relative;
+    width: 100%;
+    background: rgba(152, 152, 152, 0.269);
+    z-index: 1;
+    overflow: auto;
+    box-sizing: border-box;
+    height: 50vh;
+}
+
+.background-black-fade {
+    position: absolute;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.934));
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .pet-details-container {
+        background: rgba(152, 152, 152, 0.269);
+        border-radius: 5%;
+        width: 400px;
+        min-height: 300px;
+        max-width: 500px;
+        z-index: 1;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        opacity: 1;
+        visibility: visible;
+
+        .contact-seller {
+            color: #a19f9f;
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}
+
+.scroll-down {
+    z-index: 2;
+    cursor: pointer;
+    position: absolute;
+    background: rgba(152, 152, 152, 0.269);
+    border-radius: 100%;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%); /* Center the element relative to itself */
+    left: 50%;
+    top: 90%; /* Adjust top to position the element vertically */
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container {
+    width: 300px;
+    height: 300px;
+
+    img {
+        object-fit: cover;
+        width: 300px;
+        height: 300px;
+    }
+}
+
+.contact-button {
+    cursor: pointer;
+}

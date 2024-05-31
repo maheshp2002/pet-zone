@@ -14,9 +14,10 @@ import { PasswordValidator } from 'src/app/core/validators/password.validator';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit{
-  isPasswordVisible = false;
+export class SignupComponent implements OnInit {
+  isPasswordVisible: boolean = false;
   registerForm: FormGroup = new FormGroup({});
+  isAddressVisible: boolean = false;
 
   constructor(private readonly fb: FormBuilder,
     public readonly constants: Constants,
@@ -55,9 +56,26 @@ export class SignupComponent implements OnInit{
         ),
         Validators.pattern(this.constants.passwordPattern),
         Validators.maxLength(15)
-      ]
-      ]
+      ],
+      ],
+      phoneNumber: ['',
+        [Validators.required, Validators.pattern(this.constants.phoneNumberPattern)]
+      ],
+      buildingName: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
+      streetAddress: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
+      city: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
+      state: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
+      country: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
+      pinCode: ['', [Validators.required, Validators.minLength(6)]],
+      isSeller: [false],
     })
+  }
+
+  handleButtonClick(event: Event) {
+    if (!this.isAddressVisible) {
+      this.isAddressVisible = true;
+      event.preventDefault();
+    }
   }
 
   onSubmit() {
@@ -73,23 +91,30 @@ export class SignupComponent implements OnInit{
           severity: ToastTypes.SUCCESS,
           summary: 'You can now login with this account'
         });
-    },
+      },
 
-    error: (errorResponse) => {
-      const errorObject = errorResponse.error;
-
-      // Iterate through the keys in the error object
-      for (const key in errorObject) {
-        if (Object.prototype.hasOwnProperty.call(errorObject, key)) {
-          const errorMessage = errorObject[key];
+      error: (errorResponse) => {
+        const errorObject = errorResponse.error;
+        
+        // Iterate through the keys in the error object
+        if (errorResponse.status == 400) {          
+          for (const key in errorObject) {
+            if (Object.prototype.hasOwnProperty.call(errorObject, key)) {
+              const errorMessage = errorObject[key];
+              this.toast.add({
+                severity: ToastTypes.ERROR,
+                summary: errorMessage
+              });
+            }
+          }
+        } else {
           this.toast.add({
             severity: ToastTypes.ERROR,
-            summary: errorMessage
+            summary: 'Server Error'
           });
         }
       }
-    }
-  });
-  this.preLoaderService.hide();
-}
+    });
+    this.preLoaderService.hide();
+  }
 }

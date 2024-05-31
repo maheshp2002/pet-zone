@@ -11,7 +11,7 @@ export class Constants {
 	dateFormat = 'MM/dd/yyy';
 	wholeNumberPattern = /^\d+$/;
 	dateTimeFormat = 'MM/dd/yyy, hh:mm a';
-	fileSizeInBytes = 1000000;
+	fileSizeInBytes = 10000000;
 	allowedFileType = 'application/pdf';
 	urlPattern = '^(https?:\\/\\/)?([a-zA-Z0-9-]+\\.)*[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}(\\/[^\\s]*)?$';
 	row = 10;
@@ -20,5 +20,6 @@ export class Constants {
 	mcqQuestions = 'mcqQuestions';
 	mcqResults = 'mcqResults';
 	descriptiveQuestions = 'descriptiveQuestions';
+	stopScrollThreshold = 379.20001220703125;
 }
 

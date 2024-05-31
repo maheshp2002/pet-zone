@@ -80,17 +80,24 @@ export class LoginComponent implements OnInit {
       },
 
       error: (errorResponse) => {
-        const errorObject = errorResponse.error;
-
+        const errorObject = errorResponse.error;           
+        
         // Iterate through the keys in the error object
-        for (const key in errorObject) {
-          if (Object.prototype.hasOwnProperty.call(errorObject, key)) {
-            const errorMessage = errorObject[key];
-            this.toast.add({
-              severity: ToastTypes.ERROR,
-              summary: errorMessage
-            });
+        if (errorResponse.status == 400) {          
+          for (const key in errorObject) {
+            if (Object.prototype.hasOwnProperty.call(errorObject, key)) {
+              const errorMessage = errorObject[key];
+              this.toast.add({
+                severity: ToastTypes.ERROR,
+                summary: errorMessage
+              });
+            }
           }
+        } else {
+          this.toast.add({
+            severity: ToastTypes.ERROR,
+            summary: 'Server Error'
+          });
         }
       }
     });

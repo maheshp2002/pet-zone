@@ -8,5 +8,5 @@
         </div>
     </div>
 </div>
-<app-filters></app-filters>
-<app-grid></app-grid>
+<app-filters (petsChange)="handlePetsChange($event)"></app-filters>
+<app-grid class="mb-5 pb-5" [pets]="pets"></app-grid>

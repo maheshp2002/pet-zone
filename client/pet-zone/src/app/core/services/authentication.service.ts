@@ -34,8 +34,8 @@ export class AuthenticationService {
         return this.http.get(this.authenticationUrl + "/user-profile/" + userId);
     }
 
-    uploadImage(file: FormData) {        
-        return this.http.post<IResponse>(this.authenticationUrl + "/upload-image", file);
+    updateProfile(file: FormData) {        
+        return this.http.put<IResponse>(this.authenticationUrl + "/update-profile", file);
     }
 
     forgotPassword(email: string) {        

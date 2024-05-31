@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FixedScrollDirective, PhoneNumberCodeDirective } from '../core/directives';
+import { FixedScrollDirective, IndianPinCodeDirective, PhoneNumberCodeDirective } from '../core/directives';
 import { ErrorMessageComponent } from './error-message/error-message.component';
 import { NoDataFoundComponent } from './no-data-found/no-data-found.component';
 import { PreLoaderComponent } from './pre-loader/pre-loader.component';
@@ -10,7 +10,8 @@ import { PreLoaderComponent } from './pre-loader/pre-loader.component';
   declarations: [
     PhoneNumberCodeDirective,
     PreLoaderComponent,
-    FixedScrollDirective
+    FixedScrollDirective,
+    IndianPinCodeDirective
   ],
   imports: [
     CommonModule,
@@ -26,7 +27,8 @@ import { PreLoaderComponent } from './pre-loader/pre-loader.component';
     NoDataFoundComponent,
     PhoneNumberCodeDirective,
     PreLoaderComponent,
-    FixedScrollDirective
+    FixedScrollDirective,
+    IndianPinCodeDirective
   ]
 })
 export class SharedModule { }

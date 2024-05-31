@@ -10,11 +10,12 @@ export class Messages {
     passwordMaxLength = 'Password cannot exceed 15 characters'
     passwordMinLength = 'Minimum length is 8 characters'
     minLength = 'Minimum length is 3 characters'
-    emailMaxLength = 'Password cannot exceed 150 characters'
+    minLengthSix = 'Minimum length is 6 characters'
+    emailMaxLength = 'Email cannot exceed 150 characters'
     invalidEmail = "Invalid email"
     maxLengthFiveHundred = "Maximum length is 500 characters"
-    skillLength = "Maximum length is 50 characters"
-    codeLength = "Maximum length is 3000 characters"
+    maxLengthFifty = "Maximum length is 50 characters"
+    maxLengthTen = "Maximum length is 10 characters"
     invalidFileSize = "The file size should be less than 10mb."
     invalidFileType = "Only files of type pdf is supported"
     lengthTwoHundred = "Maximum length is 200 characters"

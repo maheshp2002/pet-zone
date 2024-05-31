@@ -98,4 +98,16 @@ public class AuthenticationController : AuthenticationControllerBase
 
         return BadRequest(response.Errors);
     }
+
+    [HttpPut("update-profile")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileDto dto)
+    {
+        var result = await _service.UpdateProfile(dto);
+        if (result.IsValid)
+            return Ok(result);
+
+        return BadRequest(result.Errors);
+    }
 }

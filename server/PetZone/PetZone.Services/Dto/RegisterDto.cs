@@ -8,7 +8,7 @@ public class RegisterDto
 
     public string? Password { get; set; }
 
-    public int Role { get; set; }
+    public bool Role { get; set; }
 
     public string? BuildingName { get; set; }
 

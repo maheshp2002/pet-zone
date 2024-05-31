@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { IPetDetailsDto } from 'src/app/core/interfaces/IPetDetailsDto';
 
 @Component({
   selector: 'app-grid',
@@ -6,91 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./grid.component.scss']
 })
 export class GridComponent {
-  pets = [
-    {
-      name: 'Tommy',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/cat-1.jpg'
-    },
-    {
-      name: 'Cookie',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Female',
-      image: 'assets/images/cat-1.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    {
-      name: 'Finn',
-      age: 'Senior',
-      size: 'Large',
-      sex: 'Male',
-      image: 'assets/images/dog-sample.jpg'
-    },
-    // Add more pet data as needed
-  ];
+  @Input() pets: IPetDetailsDto[] = [];
+
+  constructor(private readonly router: Router) {}
+
+  onClick(petId: number) {
+    this.router.navigate(['user/pet-details', petId])
+  }
 }

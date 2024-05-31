@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+AI-Llama-2-Chatbot-main
+
+# Ignore all contents of Images
+/server/PetZone/PetZone.Api/Images/*
+
+# Except this file
+!/server/PetZone/PetZone.Api/Images/.gitkeep

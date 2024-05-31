@@ -1,25 +1,162 @@
 .navbar {
-    background: transparent;
-    align-items: center;
-    z-index: 1000;
-}
-
-.logo {
-    width: 180px;
-}
-
-.nav-links {
-    list-style: none;
     display: flex;
-    gap: 20px;
+    background: transparent;
+    z-index: 1000;
+
+    .nav-links {
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        gap: 20px;
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            position: relative;
+
+            &:hover::after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                background-color: white;
+                bottom: -2px;
+                left: 0;
+            }
+        }
+
+        .active-link::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            bottom: -2px;
+            left: 0;
+        }
+
+        /* Remove hover effect for active link */
+        .active-link:hover::after {
+            display: none;
+        }
+    }
+
+    .logo {
+        width: 180px;
+    }
 }
 
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
+.profile-pic {
+    border: 1px solid grey;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    color: grey;
+
+    &:hover {
+        border: 1px solid white;
+        color: white;
+    }
+
+    i {
+        font-size: 20px;
+    }
+
+    img {
+        width: 38px;
+        height: 38px;
+        object-fit: fill;
+        border-radius: 100%;
+        object-position: center;
+    }
 }
 
-.nav-links a:hover {
-    text-decoration: underline;
+.fw-25 {
+    font-size: 30px;
+}
+
+.upload-button {
+    width: 250px;
+    height: 60px;
+    font-size: 25px;
+}
+
+label {
+    left: 15px;
+}
+
+.profile-container {
+    height: 120px;
+}
+
+.profile-image-container {
+    width: 89px;
+    height: 89px;
+    border: 3px solid orange;
+}
+
+.error-message {
+    padding-left: 0px;
+}
+
+.profile-form {
+    height: 70px;
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+
+        .input {
+            width: 320px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid grey;
+            border-radius: 8px;
+
+            &::placeholder {
+                visibility: hidden;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: darkblue;
+
+                &::placeholder {
+                    visibility: visible;
+                }
+            }
+        }
+
+        .eye-icon {
+            text-decoration: none;
+            color: grey;
+            position: absolute;
+            transform: translateX(390px) translateY(-30px);
+            cursor: pointer;
+        }
+
+        .label {
+            padding: 0 3px;
+            pointer-events: none;
+            position: absolute;
+            left: 1rem;
+            top: .75rem;
+            color: grey;
+            transition: 0.2s;
+            transition-timing-function: ease;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+            background: white;
+        }
+
+        input:focus+label,
+        input:not(:placeholder-shown)+label {
+            opacity: 1;
+            transform: scale(0.75) translateY(-2.3rem) translateX(-1rem);
+        }
+    }
+}
+
+.image-container {
+    width: 660px;
 }

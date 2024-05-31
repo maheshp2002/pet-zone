@@ -6,45 +6,135 @@
                 <img src="/assets/images/logo-dark.png" class="logo">
                 <h1 class="text-center m-5 fw-bold">Create an account</h1>
             </div>
-            <div class="form-group">
-                <input class="input form-control" type="text" name="name" id="signup-name" formControlName="name"
-                    placeholder="Name">
-                <label class="required label">Name</label>
-                <app-error-message [control]="registerForm.get('name')" [validationMessages]="{
-                    minLength: message.minLength,
-                    maxLength: message.emailMaxLength,
+            <div *ngIf="!isAddressVisible" class="mb-3">
+                <div class="form-group">
+                    <input class="input form-control" type="text" name="name" id="signup-name" formControlName="name"
+                        placeholder="Name">
+                    <label class="required label">Name</label>
+                    <app-error-message [control]="registerForm.get('name')" [validationMessages]="{
+                    minlength: message.minLength,
+                    maxlength: message.emailMaxLength,
                     required: message.requiredField
                 }"></app-error-message>
-            </div>
-            <div class="form-group">
-                <input class="input form-control" type="email" name="email" id="signup-email" formControlName="email"
-                    placeholder="Email">
-                <label class="required label">Email</label>
-                <app-error-message [control]="registerForm.get('email')" [validationMessages]="{
-                    minLength: message.minLength,
-                    maxLength: message.emailMaxLength,
+                </div>
+                <div class="form-group">
+                    <input class="input form-control" type="email" name="email" id="signup-email"
+                        formControlName="email" placeholder="Email">
+                    <label class="required label">Email</label>
+                    <app-error-message [control]="registerForm.get('email')" [validationMessages]="{
+                    minlength: message.minLength,
+                    maxlength: message.emailMaxLength,
                     email: message.invalidEmail,
                     pattern: message.invalidEmail,
                     required: message.requiredField
                 }"></app-error-message>
-            </div>
-            <div class="form-group">
-                <input class="input form-control" placeholder="Password" pPassword formControlName="password"
-                    [type]="isPasswordVisible ? 'text' : 'password'" id="password-input">
-                <label class="label required d-inline" for="newPassword">Password</label>
-                <a class="pi eye-icon" id="-password-eye-icon"
-                    [ngClass]="{'pi-eye': isPasswordVisible, 'pi-eye-slash': !isPasswordVisible}"
-                    (click)="togglePasswordVisibility()"></a>
-                <app-error-message [control]="registerForm.get('password')" [validationMessages]="{
+                </div>
+                <div class="form-group">
+                    <input appPhoneNumberCode class="input form-control" type="text" name="phoneNumber"
+                        id="signup-phoneNumebr" formControlName="phoneNumber" placeholder="Phone Number">
+                    <label class="required label">Phone Number</label>
+                    <app-error-message [control]="registerForm.get('phoneNumber')" [validationMessages]="{
+                        required: message.requiredField,
+                        pattern: message.invalidPhoneNumber
+                }"></app-error-message>
+                </div>
+                <div class="form-group">
+                    <input class="input form-control" placeholder="Password" pPassword formControlName="password"
+                        [type]="isPasswordVisible ? 'text' : 'password'" id="password-input">
+                    <label class="label required d-inline" for="newPassword">Password</label>
+                    <a class="pi eye-icon" id="-password-eye-icon"
+                        [ngClass]="{'pi-eye': isPasswordVisible, 'pi-eye-slash': !isPasswordVisible}"
+                        (click)="togglePasswordVisibility()"></a>
+                    <app-error-message [control]="registerForm.get('password')" [validationMessages]="{
                         required: message.requiredField,
                         minlength: message.passwordMinLength,
                         maxlength: message.passwordMaxLength,
                         pattern: message.invalidPassword,
                         invalidPassword: message.allowedCharacters
                 }"></app-error-message>
+                </div>
+                <div class="d-flex gap-3 user-toggle">
+                    <label>
+                        Are you a seller
+                    </label>
+                    <p-toggleButton type="radio" onLabel="Yes" offLabel="No" onIcon="pi pi-check" offIcon="pi pi-times" styleClass="w-9rem" formControlName="isSeller" />
+                </div>
             </div>
-            <button [disabled]="registerForm.invalid" type="submit"
-                class="btn btn-outline-dark rounded-5 sign-up-button">Register</button>
+            <div *ngIf="isAddressVisible">
+                <div class="form-group">
+                    <input class="input form-control" type="text" name="buildingName" id="signup-buildingName"
+                        formControlName="buildingName" placeholder="Building Name">
+                    <label class="required label">Building Name</label>
+                    <app-error-message [control]="registerForm.get('buildingName')" [validationMessages]="{
+                    minlength: message.minLength,
+                    maxlength: message.maxLengthFifty,
+                    required: message.requiredField
+                }"></app-error-message>
+                </div>
+                <div class="form-group">
+                    <input class="input form-control" type="text" name="streetAddress" id="signup-streetAddress"
+                        formControlName="streetAddress" placeholder="Street Address">
+                    <label class="required label">Street Address</label>
+                    <app-error-message [control]="registerForm.get('streetAddress')" [validationMessages]="{
+                    minlength: message.minLength,
+                    maxlength: message.maxLengthFifty,
+                    required: message.requiredField
+                }"></app-error-message>
+                </div>
+                <div class="d-flex gap-4 address-form">
+                    <div class="form-group">
+                        <input class="input form-control" type="text" name="city" id="signup-city"
+                            formControlName="city" placeholder="City">
+                        <label class="required label">City</label>
+                        <app-error-message [control]="registerForm.get('city')" [validationMessages]="{
+                            minlength: message.minLength,
+                            maxlength: message.maxLengthFifty,
+                            required: message.requiredField
+                        }"></app-error-message>
+                    </div>
+                    <div class="form-group">
+                        <input class="input form-control" type="text" name="state" id="signup-state"
+                            formControlName="state" placeholder="State">
+                        <label class="required label">State</label>
+                        <app-error-message [control]="registerForm.get('state')" [validationMessages]="{
+                        minlength: message.minLength,
+                        maxlength: message.maxLengthFifty,
+                        required: message.requiredField
+                    }"></app-error-message>
+                    </div>
+                </div>
+                <div class="d-flex gap-4 address-form">
+                    <div class="form-group">
+                        <input class="input form-control" type="text" name="country" id="signup-country"
+                            formControlName="country" placeholder="Country">
+                        <label class="required label">Country</label>
+                        <app-error-message [control]="registerForm.get('country')" [validationMessages]="{
+                        minlength: message.minLength,
+                        maxlength: message.maxLengthFifty,
+                        required: message.requiredField
+                    }"></app-error-message>
+                    </div>
+                    <div class="form-group">
+                        <input appIndianPinCode class="input form-control" type="text" name="pinCode"
+                            id="signup-pinCode" formControlName="pinCode" placeholder="Pin Code">
+                        <label class="required label">Pin Code</label>
+                        <app-error-message [control]="registerForm.get('pinCode')" [validationMessages]="{
+                            minlength: message.minLength,
+                            maxlength: message.maxLengthTen,
+                            required: message.requiredField
+                        }"></app-error-message>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex gap-3">
+                <button *ngIf="isAddressVisible" type="button" (click)="isAddressVisible = false"
+                    class="btn btn-outline-dark rounded-5 sign-up-button">Back</button>
+                <button [disabled]="!isAddressVisible ? false : registerForm.invalid"
+                    [type]="!isAddressVisible ? 'button' : 'submit'"
+                    class="btn btn-outline-dark rounded-5 sign-up-button"
+                    (click)="handleButtonClick($event)">{{!isAddressVisible ? 'Next' :
+                    'Register'}}</button>
+            </div>
             <a [routerLink]="['']" id="admin-login-link" class="signup-link mt-3">
                 Already have an account? Click here to login.
             </a>
