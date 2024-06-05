@@ -1,0 +1,206 @@
+<div class="top-container mt-5 pt-5 w-100 p-3 d-flex justify-content-between align-items-end">
+    <h2>Pet details</h2>
+    <button type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog(false)">
+        Add Pet
+    </button>
+</div>
+<div class="ms-3 me-3">
+    <hr>
+</div>
+<div class="table-container p-3">
+    <p-table #petDetailsTable [scrollable]="true" [resizableColumns]="true" [paginator]="true" [value]="results"
+        [rows]="rows" selectionMode="single">
+        <ng-template pTemplate="header">
+            <tr class="table-header-shadow">
+                <th>
+                    Images
+                </th>
+                <th pSortableColumn="title">
+                    <div class="d-flex justify-content-between align-items-center">
+                        Breed
+                        <p-sortIcon field="title"></p-sortIcon>
+                    </div>
+                </th>
+                <th pSortableColumn="position">
+                    <div class="d-flex justify-content-between align-items-center">
+                        Category
+                        <p-sortIcon field="position"></p-sortIcon>
+                    </div>
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Sex
+                </th>
+                <th>
+                    Color
+                </th>
+                <th>
+                    Availability
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Edit
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" ngFor let-result [ngForOf]="results" let-i="index">
+            <tr>
+                <td class="d-flex align-items-center justify-content-between">
+                    <p-image [src]="result.images[0]" alt="Image" width="50" class="pet-img" [preview]="true" />
+                    <p-image [src]="result.images[1]" alt="Image" width="50" class="pet-img" [preview]="true" />
+                    <p-image [src]="result.images[2]" alt="Image" width="50" class="pet-img" [preview]="true" />
+                    <p-image [src]="result.images[3]" alt="Image" width="50" class="pet-img" [preview]="true" />
+                </td>
+                <td>{{result.breed}}</td>
+                <td><span>{{result.category}}</span></td>
+                <td>{{result.age}}</td>
+                <td>{{result.sex}}</td>
+                <td>{{result.color}}</td>
+                <td>{{result.availability}}</td>
+                <td>{{result.description}}</td>
+                <td>{{result.price}}</td>
+                <td>
+                    <a class="d-flex gap-3 fw-700" [ngClass]="result.status ? 'text-success' : 'text-danger'">
+                        <span pTooltip="Click to change status" [tooltipPosition]="'top'">{{result.status ? 'Available'
+                            :
+                            'Not Available'}}</span>
+                        <i class="pi" [ngClass]="result.status ? 'pi-check-circle' : 'pi-times'"></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="d-flex gap-3 fw-700" (click)="openEditDialog(result)">
+                        <i class="pi pi-pencil"></i>
+                    </a>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="12">
+                    <app-no-data-found></app-no-data-found>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-dialog [draggable]="false" header="{{ isEdit ? 'Update Pet Details' : 'Add new Pet' }}" [(visible)]="isVisible">
+    <form [formGroup]="petDetailsForm" class="mb-5" (ngSubmit)="isEdit ? updateStatus() : onSubmit()">
+        <div *ngIf="!isEdit" class="d-flex gap-2">
+            <div class="ps-0 mb-2">
+                <div class="required dropdown pe-3 mb-2">
+                    Breed
+                </div>
+                <p-dropdown [options]="masterData.breeds" formControlName="breed" optionValue="id" optionLabel="name"
+                    placeholder="Select pet breed" />
+                <app-error-message [control]="petDetailsForm.get('breed')" [validationMessages]="{
+                    required: message.requiredField,
+            }"></app-error-message>
+            </div>
+            <div class="ps-0 mb-2">
+                <div class="required pe-3 mb-2">
+                    Category
+                </div>
+                <p-dropdown [options]="masterData.categories" formControlName="category" optionValue="id"
+                    optionLabel="name" placeholder="Select pet category" />
+                <app-error-message [control]="petDetailsForm.get('category')" [validationMessages]="{
+                    required: message.requiredField,
+            }"></app-error-message>
+            </div>
+        </div>
+        <div class="form-input-control ps-0">
+            <label class="required" for="seller-petDetails-age">
+                Age
+            </label>
+            <input formControlName="age" placeholder="Type down pet age here" type="text" class="w-100"
+                id="seller-petDetails-age">
+            <app-error-message [control]="petDetailsForm.get('age')" [validationMessages]="{
+                    required: message.requiredField,
+            }"></app-error-message>
+        </div>
+        <div *ngIf="!isEdit" class="ps-0 mb-2">
+            <div class="required pe-3 mb-2">
+                Sex
+            </div>
+            <p-dropdown [options]="sex" formControlName="sex" optionValue="value" optionLabel="label"
+                placeholder="Select pet sex" />
+            <app-error-message [control]="petDetailsForm.get('sex')" [validationMessages]="{
+                    required: message.requiredField,
+            }"></app-error-message>
+        </div>
+        <div *ngIf="!isEdit" class="form-input-control ps-0 max-width-200">
+            <label class="required" for="seller-petDetails-color">
+                Color
+            </label>
+            <input formControlName="color" placeholder="Type down pet color here" type="text" class="w-100"
+                id="seller-petDetails-color">
+            <app-error-message [control]="petDetailsForm.get('color')" [validationMessages]="{
+                    required: message.requiredField,
+            }"></app-error-message>
+        </div>
+        <div class="form-input-control ps-0 max-width-200">
+            <label class="required" for="seller-petDetails-availability">
+                Availability
+            </label>
+            <input formControlName="availability" placeholder="Type down pet availability here" type="text"
+                class="w-100" id="seller-petDetails-availability">
+            <app-error-message [control]="petDetailsForm.get('availability')" [validationMessages]="{
+                    required: message.requiredField
+            }"></app-error-message>
+        </div>
+        <div class="form-input-control mb-2 ps-0 max-width-200">
+            <label class="required" for="seller-petDetails-description">
+                Description
+            </label>
+            <textarea rows="5" cols="30" pInputTextarea formControlName="description">
+        </textarea>
+            <app-error-message [control]="petDetailsForm.get('description')" [validationMessages]="{
+                    required: message.requiredField,
+                    maxlength: message.maxLengthFiveHundred
+            }"></app-error-message>
+        </div>
+        <div class="ps-0 mb-2" *ngIf="isEdit">
+            <div class="required pe-3 mb-2">
+                Status
+            </div>
+            <p-dropdown [options]="status" formControlName="status" optionValue="value" optionLabel="label"
+                placeholder="Select status" />
+            <app-error-message [control]="petDetailsForm.get('category')" [validationMessages]="{
+                required: message.requiredField,
+        }"></app-error-message>
+        </div>
+        <div class="form-input-control ps-0 max-width-200">
+            <label class="required" for="seller-petDetails-price">
+                Price
+            </label>
+            <input formControlName="price" placeholder="Type down pet price here" type="text" class="w-100"
+                id="seller-petDetails-price">
+            <app-error-message [control]="petDetailsForm.get('price')" [validationMessages]="{
+                    required: message.requiredField
+            }"></app-error-message>
+        </div>
+        <div class="ps-0 mb-2 file-upload" *ngIf="!isEdit">
+            <label class="required" for="seller-petDetails-price">
+                Images
+            </label>
+            <p-fileUpload #ImagesUpload [multiple]="true" accept="image/*" (onSelect)="onImageSelect($event)"
+                [accept]="allowedImageType" [customUpload]="true" [maxFileSize]="imageSizeInBytes">
+            </p-fileUpload>
+        </div>
+        <div class="fixed-bottom dialog-footer w-100 d-flex justify-content-end p-3">
+            <button type="button" icon="pi pi-check" (click)="isVisible = false"
+                class="btn btn-outline-dark rounded-2 dialog-button me-3">Cancel</button>
+            <button [disabled]="petDetailsForm.invalid" icon="pi pi-check" type="submit"
+                class="btn btn-dark rounded-2 dialog-button">Save</button>
+        </div>
+    </form>
+</p-dialog>

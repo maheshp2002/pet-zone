@@ -10,6 +10,6 @@ public class AddMessageDto
 
     public IFormFile? File { get; set; }
 
-    public bool? IsFile { get; set; }
+    public bool IsFile { get; set; }
 
 }

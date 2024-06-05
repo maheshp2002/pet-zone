@@ -373,6 +373,9 @@ namespace PetZone.Services.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFile")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SenderId")
                         .HasColumnType("nvarchar(450)");
 
@@ -419,6 +422,9 @@ namespace PetZone.Services.Migrations
 
                     b.Property<string>("SellerId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SerializedImages")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sex")
                         .HasColumnType("nvarchar(max)");

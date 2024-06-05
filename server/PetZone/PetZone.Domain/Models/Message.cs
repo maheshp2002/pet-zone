@@ -21,4 +21,6 @@ public class Message
     public ApplicationUser? Sender { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public bool IsFile { get; set; }
 }

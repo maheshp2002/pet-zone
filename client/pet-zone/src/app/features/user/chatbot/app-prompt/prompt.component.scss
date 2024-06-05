@@ -1,0 +1,29 @@
+.chat-prompt-input {
+  display: flex;
+  align-items: center;
+  padding: 10px 0 10px 0;
+  border-top: 1px solid #ccc;
+}
+
+.chat-prompt-input input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+}
+
+.chat-prompt-input button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-prompt-input button:hover {
+  background-color: #0056b3;
+}

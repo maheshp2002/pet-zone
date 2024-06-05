@@ -1,0 +1,63 @@
+@import '/src/styles/variables.scss';
+
+.chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  color: slategray;
+
+  i {
+    font-size: 30px;
+    color: $dark-color;
+
+    &:hover {
+      color: orange;
+    }
+  }
+}
+
+.chatbox {
+  position: fixed;
+  bottom: 80px; /* Adjust this value according to your layout */
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: none;
+
+  .header {
+    border-bottom-style: solid;
+    border-bottom-color: grey;
+
+    h2, h6 {
+      margin: 0;
+    }
+
+    .right-align {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+
+  .footer{
+    border-top-style: solid;
+    border-top-color: grey;
+
+  }
+}
+
+.chatbox.open {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  .chatbox-conversation {
+    flex: 1;
+  }
+}

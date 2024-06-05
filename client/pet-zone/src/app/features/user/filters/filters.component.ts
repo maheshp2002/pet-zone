@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { ToastTypes } from 'src/app/core/enums';
 import { IPetDetailsDto } from 'src/app/core/interfaces/IPetDetailsDto';
 import { PetDetailsService } from 'src/app/core/services/petDetails.service';
+import { PreLoaderService } from 'src/app/core/services/preloader.service';
 
 @Component({
   selector: 'app-filters',
@@ -14,30 +15,13 @@ export class FiltersComponent implements OnInit {
   @Output() petsChange = new EventEmitter<IPetDetailsDto[]>();
 
   pets: IPetDetailsDto[] = [];
-  initialPets: IPetDetailsDto[] = [
-    {
-      petId: 1,
-      age: 'Puppy',
-      breed: 'Persian',
-      sex: 'male',
-      color: 'black',
-      availability: 10,
-      sellerId: 1,
-      sellerName: 'Ramanan',
-      sellerAddress: 'HAHAHA',
-      description: 'hehe',
-      images: ['assets/images/cat-1.jpg'],
-      price: 10,
-      category: 'cat',
-      status: false
-    }
-  ];
+  initialPets: IPetDetailsDto[] = [];
   isResultEmpty = false;
   petFilterForm: FormGroup = new FormGroup({});
 
   ageOptions = [
     { label: 'All', value: 'all' },
-    { label: 'Puppy', value: 'puppy' },
+    { label: 'Baby', value: 'baby' },
     { label: 'Adult', value: 'adult' },
     { label: 'Senior', value: 'senior' }
   ];
@@ -61,10 +45,12 @@ export class FiltersComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly service: PetDetailsService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly preloaderService: PreLoaderService
   ) {}
 
   ngOnInit(): void {
+    this.preloaderService.show();
     this.pets = [...this.initialPets];
     this.petsChange.emit(this.pets);
     this.buildPetSearchForm();
@@ -74,7 +60,8 @@ export class FiltersComponent implements OnInit {
   getPetList() {
     this.service.getAllPetDetailsUser().subscribe({
       next: (response: any) => {
-        this.pets = response.result;       
+        this.pets = this.initialPets = response.result;  
+        this.petsChange.emit(this.pets);
       },
       error: (errorResponse) => {
         const errorObject = errorResponse.error;        
@@ -98,6 +85,8 @@ export class FiltersComponent implements OnInit {
         }
       }
     });
+
+    this.preloaderService.hide();
   }
 
   buildPetSearchForm() {
@@ -125,11 +114,13 @@ export class FiltersComponent implements OnInit {
 
     if (search) {
       const searchTerm = search.toLowerCase().trim();
+      console.log(searchTerm, this.initialPets);
+      
       filteredPets = filteredPets.filter(pet => pet.breed.toLowerCase().includes(searchTerm));
     }
 
     if (age && age !== 'all') {
-      filteredPets = filteredPets.filter(pet => pet.age.toLocaleLowerCase() === age.toLocaleLowerCase());
+      filteredPets = filteredPets.filter(pet => this.petAge(parseInt(pet.age)) === age.toLocaleLowerCase());
     }
 
     if (sex) {
@@ -153,5 +144,15 @@ export class FiltersComponent implements OnInit {
     this.pets = filteredPets;
     this.isResultEmpty = this.pets.length <= 0;
     this.petsChange.emit(this.pets);
+  }
+
+  petAge(age: number) {
+    if (age <= 1) {
+      return 'baby'
+    } else if (age <= 5) {
+      return 'adult'
+    }
+    
+    return 'senior'
   }
 }

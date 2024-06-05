@@ -17,7 +17,7 @@ public class UserController : UserControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllPetDetails()
     {
-        var result = await _petDetailService.GetAllPetDetailsAsync();
+        var result = await _petDetailService.GetAllPetDetailsAsync(false);
         if (result.IsValid)
             return Ok(result);
 

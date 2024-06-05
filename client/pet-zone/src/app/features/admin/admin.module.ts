@@ -11,12 +11,17 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { TooltipModule } from 'primeng/tooltip';
 import { ErrorMessageComponent } from 'src/app/shared/error-message/error-message.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import { NoDataFoundComponent } from 'src/app/shared/no-data-found/no-data-found.component';
 
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomepageComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +32,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     DialogModule,
     TooltipModule,
     FontAwesomeModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule,
+    NoDataFoundComponent,
+    TableModule,
   ],
   providers: [ConfirmationService]
 })

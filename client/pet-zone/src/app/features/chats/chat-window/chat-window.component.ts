@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Constants } from 'src/app/core/configs/app.config';
 import { FileValidator } from 'src/app/core/validators/file.validator';
@@ -15,41 +15,12 @@ import { MessageService } from 'primeng/api';
 })
 export class ChatWindowComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: any;
-  @Input('chat') chat: IGetChatListDto = {
-    id: 0,
-    createdAt: '',
-    chatName: '',
-    isBlocked: false,
-    isRemoved: false,
-    icon: ''
-  };
+  @Input('chat') chat!: IGetChatListDto;
+  @Input('isChatSelected') isChatSelected!: Boolean;
+  @Input('chatLength') chatLength!: number;
 
-  messages: IGetMessageDto[] = [
-    {
-      id: 1,
-      time: '10:00',
-      date: '2020-02-02',
-      content: 'hahah',
-      isSenderUser: true,
-      isMessageDeleted: false
-    },
-    {
-      id: 2,
-      time: '10:05',
-      date: '2020-02-02',
-      content: 'Hello!',
-      isSenderUser: false,
-      isMessageDeleted: false
-    },
-    {
-      id: 3,
-      time: '09:00',
-      date: '2020-02-03',
-      content: 'Good morning!',
-      isSenderUser: true,
-      isMessageDeleted: false
-    }
-  ];
+  messages: IGetMessageDto[] = [];
+  isFileSelected = false;
 
   groupedMessages: any[] = [];
   chatForm: FormGroup = new FormGroup({});
@@ -67,14 +38,27 @@ export class ChatWindowComponent implements OnInit {
   ngOnInit(): void {
     this.getAllMessages();
     this.buildMessageForm();
-    this.groupMessagesByDate();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['chat'] && !changes['chat'].isFirstChange()) {
+      this.updateFormWithNewChatId();
+      this.getAllMessages();
+    }
+  }
+
+  updateFormWithNewChatId() {
+    this.chatForm.patchValue({
+      chatId: this.chat.id
+    });
   }
 
   getAllMessages() {
     this.service.getMessage(this.chat.id).subscribe({
       next: (response: any) => {
         this.preloader.hide();
-        this.messages = response.result;        
+        this.messages = response.result;  
+        this.groupMessagesByDate();
       },
 
       error: (errorResponse) => {
@@ -119,7 +103,9 @@ export class ChatWindowComponent implements OnInit {
 
   buildMessageForm() {
     this.chatForm = this.fb.group({
-      message: [{value: '', disabled: false}],
+      chatId: [this.chat.id],
+      isFile: [false],
+      content: [{value: '', disabled: false}],
       file: ['', [this.fileValidator.fileSizeValidator(this.constants.fileSizeInBytes)]]
     });
   }
@@ -129,8 +115,12 @@ export class ChatWindowComponent implements OnInit {
     const messageControl = this.chatForm.get('message');
     if (fileControl?.dirty && fileControl.value) {
       messageControl?.disable();
+      this.chatForm.get('isFile')?.setValue(true);
+      this.isFileSelected = true;
     } else {
       messageControl?.enable();
+      this.chatForm.get('isFile')?.setValue(false);
+      this.isFileSelected = false
     }
   }
 
@@ -143,7 +133,6 @@ export class ChatWindowComponent implements OnInit {
 
   onFileSelect({ files }: { files: File[] }) {
     const file = files[0];
-    const fileUrl = URL.createObjectURL(file);
     this.chatForm.patchValue({ file: file });
     this.chatForm.get('file')?.markAsDirty();
     if (this.fileUpload) {
@@ -152,14 +141,29 @@ export class ChatWindowComponent implements OnInit {
     this.checkFileDirty();
   }
 
-  onSubmit() {
-    if (this.chatForm.get('file')?.dirty || (this.chatForm.get('message')?.dirty && this.chatForm.get('message')?.value != '')) {
+  onSubmit() {        
+    if (this.chatForm.get('file')?.dirty || (this.chatForm.get('content')?.dirty && this.chatForm.get('content')?.value != '')) {
       const formData = new FormData();
       const temp = this.chatForm.value;
       Object.keys(temp).forEach((key) => {
         formData.append(key, temp[key])
       });
-      console.log(formData.get('file'), formData.get('message'));
+            
+      this.service.addMessage(formData).subscribe({
+        next: () => {
+          this.chatForm.patchValue({content: ''})
+          this.chatForm.get('isFile')?.setValue(false);
+          this.isFileSelected = false
+          this.getAllMessages();
+        },
+        
+        error: () => {
+          this.toast.add({
+            severity: ToastTypes.ERROR,
+            summary: 'An error occurred while sending'
+          });
+        }
+      });
     }
   }
 }

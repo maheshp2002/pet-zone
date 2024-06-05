@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ReactiveFormsModule,
     ButtonModule,
     InputTextareaModule,
-    FileUploadModule
+    FileUploadModule,
+    ImageModule
   ]
 })
 export class ChatsModule { }

@@ -5,9 +5,6 @@
     border-right: $secondary-color 1px solid;
 
     .chat-item {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
         cursor: pointer;
 
         &:hover {
@@ -24,13 +21,8 @@
         .chat-info {
             flex: 1;
 
-            h5 {
-                margin: 0;
-            }
-
             p {
                 margin: 0;
-                color: grey;
             }
         }
 

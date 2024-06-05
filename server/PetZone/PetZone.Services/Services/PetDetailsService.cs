@@ -15,12 +15,35 @@ public class PetDetailsService
         _db = db;
     }
 
-    public async Task<ServiceResponse<List<PetDetailsViewDto>>> GetAllPetDetailsAsync()
+    public async Task<ServiceResponse<List<PetDetailsViewDto>>> GetAllPetDetailsAsync(bool isSeller)
     {
         var response = new ServiceResponse<List<PetDetailsViewDto>>();
 
-        var result = await _db.PetDetails.Include(x => x.Seller).Include(x => x.Breed).Include(x => x.Category)
-            .Select(c => new PetDetailsViewDto
+        var result = new List<PetDetails>();
+
+        if (isSeller)
+        {
+            result = await _db.PetDetails.Include(x => x.Seller)
+            .Include(x => x.Breed)
+            .Include(x => x.Category)
+            .ToListAsync();
+        } 
+        else
+        {
+            result = await _db.PetDetails.Include(x => x.Seller)
+            .Include(x => x.Breed)
+            .Include(x => x.Category)
+            .Where(x => x.Status != false)
+            .ToListAsync();
+        }
+
+        // Transform the result into DTOs with updated image URLs
+        var dtoList = result.Select(c =>
+        {
+            var imageUrlPrefix = "https://localhost:7224/";
+            var transformedImages = c.Images?.Select(image => imageUrlPrefix + image).ToList();
+
+            return new PetDetailsViewDto
             {
                 PetId = c.Id,
                 Age = c.Age,
@@ -33,12 +56,13 @@ public class PetDetailsService
                 SellerAddress = $"{c.Seller.BuildingName} {c.Seller.StreetAddress} {c.Seller.City} {c.Seller.State} {c.Seller.Country} \r\n Pincode: {c.Seller.PinCode}",
                 Description = c.Description,
                 Price = c.Price,
-                Images = c.Images,
+                Images = transformedImages,
                 Category = c.Category!.Name,
                 Status = c.Status
-            }).ToListAsync();
+            };
+        }).ToList();
 
-        response.Result = result;
+        response.Result = dtoList;
 
         return response;
     }
@@ -53,8 +77,12 @@ public class PetDetailsService
             .Include(x => x.Category)
             .FirstOrDefaultAsync(c => c.Id == id);
 
+
         if (petDetail != null)
         {
+            var imageUrlPrefix = "https://localhost:7224/";
+            var transformedImages = petDetail!.Images?.Select(image => imageUrlPrefix + image).ToList();
+
             var result = new PetDetailsViewDto
             {
                 PetId = petDetail.Id,
@@ -68,7 +96,7 @@ public class PetDetailsService
                 SellerAddress = $"{petDetail.Seller?.BuildingName} {petDetail.Seller?.StreetAddress} {petDetail.Seller?.City} {petDetail.Seller?.State} {petDetail.Seller?.Country} \r\n Pincode: {petDetail.Seller?.PinCode}",
                 Description = petDetail.Description,
                 Price = petDetail.Price,
-                Images = petDetail.Images,
+                Images = transformedImages,
                 Category = petDetail.Category?.Name,
                 Status = petDetail.Status
             };
@@ -101,6 +129,7 @@ public class PetDetailsService
             };
 
             _db.PetDetails.Add(result);
+            await _db.SaveChangesAsync();
 
             response.Result = result.Id;
         } 
@@ -113,36 +142,28 @@ public class PetDetailsService
                 return response;
             }
 
-            if (petDetails.Images != null && petDetails.Images.Count() != 0)
-            {
-                foreach (var image in petDetails.Images)
-                {
-                    File.Delete(image);
-                }
-            }
+            //if (petDetails.Images != null && petDetails.Images.Count() != 0)
+            //{
+            //    foreach (var image in petDetails.Images)
+            //    {
+            //        File.Delete(image);
+            //    }
+            //}
 
-            if (dto.Images != null && dto.Images.Count() != 0)
-            {
-                petDetails.Images = await GetImageList(dto);
-            }
+            //if (dto.Images != null && dto.Images.Count() != 0)
+            //{
+            //    petDetails.Images = await GetImageList(dto);
+            //}
 
             petDetails.Age = dto.Age;
-            petDetails.Sex = dto.Sex;
-            petDetails.Color = dto.Color;
             petDetails.Availability = dto.Availability;
             petDetails.Description = dto.Description;
             petDetails.Price = dto.Price;
-            petDetails.BreedId = dto.Breed;
-            petDetails.CategoryId = dto.Category;
-            petDetails.SellerId = dto.SellerId;
             petDetails.Status = dto.Status;
 
-            _db.PetDetails.Add(petDetails);
-
+            await _db.SaveChangesAsync();
             response.Result = petDetails.Id;
         }
-
-        await _db.SaveChangesAsync();
 
         return response;
     }
@@ -157,7 +178,7 @@ public class PetDetailsService
             string fileExtension = Path.GetExtension(fileName).ToLower();
 
             string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-            string uploadsDir = Path.Join("Images", uniqueFileName);
+            string uploadsDir = Path.Join("PetImages", uniqueFileName);
 
             using (var fileStream = new FileStream(uploadsDir, FileMode.Create))
             {

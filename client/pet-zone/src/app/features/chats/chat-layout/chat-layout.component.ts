@@ -15,8 +15,16 @@ export class ChatLayoutComponent {
     isRemoved: false,
     icon: ''
   };
+  @Input('chatLength') chatLength: number = 0;
+
+  isMessageSelected = false;
 
   handleChatChange(selectedChat: IGetChatListDto) {
+    this.isMessageSelected = true;
     this.chat = selectedChat;
+  }
+
+  handleChatLength(chatLength: number) {
+    this.chatLength = chatLength;
   }
 }

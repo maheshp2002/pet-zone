@@ -27,11 +27,11 @@ export class PetDetailsService {
         return this.http.get(this.petDetailsSellerUrl + "/pet-details");
     }
 
-    addPetDetails(model: IAddPetDetailsDto) {
+    addPetDetails(model: FormData) {
         return this.http.post(this.petDetailsSellerUrl + "/pet-details", model);
     }
 
-    updatedPetDetails(model: IAddPetDetailsDto) {
+    updatedPetDetails(model: FormData) {
         return this.http.put(this.petDetailsSellerUrl + "/pet-details", model);
     }
 

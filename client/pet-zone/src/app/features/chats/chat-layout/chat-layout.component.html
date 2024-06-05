@@ -1,4 +1,4 @@
 <div class="h-100 d-flex gap-5">
-    <app-chat-list (selectedChat)="handleChatChange($event)" class="w-25"></app-chat-list>
-    <app-chat-window [chat]="chat" class="w-75"></app-chat-window>
+    <app-chat-list (selectedChat)="handleChatChange($event)" (chatLength)="handleChatLength($event)" class="w-25"></app-chat-list>
+    <app-chat-window [chatLength]="chatLength" [isChatSelected]="isMessageSelected" [chat]="chat" class="w-75"></app-chat-window>
 </div>

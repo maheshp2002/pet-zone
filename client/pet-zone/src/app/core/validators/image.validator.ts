@@ -32,4 +32,26 @@ export class ImageValidator {
             return (!controlValue?.type?.startsWith('image/') || controlValue.type === 'image/gif') && controlValue?.type !== undefined ? { invalidImageType: true } : null;
         }
     }
+
+    imageListSizeValidator(maxSizeInBytes: number): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+          const files: File[] = control.value;
+          if (files && files.length) {
+            const invalidFiles = files.filter(file => file.size > maxSizeInBytes);
+            return invalidFiles.length ? { invalidImageSize: true } : null;
+          }
+          return null;
+        };
+      }
+    
+      imageListTypeValidator(allowedTypes: string): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+          const files: File[] = control.value;
+          if (files && files.length) {
+            const invalidFiles = files.filter(file => allowedTypes !== file.type);
+            return invalidFiles.length ? { invalidImageType: true } : null;
+          }
+          return null;
+        };
+      }
 }

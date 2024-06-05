@@ -9,7 +9,7 @@ export interface IPetDetailsDto {
     images: string[],
     breed: string,
     category: string,
-    sellerId: number,
+    sellerId: string,
     sellerName: string,
     sellerAddress: string
     status: boolean
@@ -33,4 +33,14 @@ export interface IAddPetDetailsDto {
 export interface IMasterDataDto {
     id: number,
     name: string
+}
+
+export interface IMasterDto {
+    breeds: IMasterDataDto[]
+    categories: IMasterDataDto[]
+}
+
+export interface IDropdown {
+    label: string
+    value: boolean | string | null
 }

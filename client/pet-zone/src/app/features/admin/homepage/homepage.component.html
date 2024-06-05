@@ -1,0 +1,98 @@
+<div class="top-container mt-5 pt-5 w-100 p-3 d-flex justify-content-between align-items-end">
+    <h2>Breeds</h2>
+    <button type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog(false)">
+        Add Breed
+    </button>
+</div>
+<div class="ms-3 me-3">
+    <hr>
+</div>
+<div class="table-container p-3">
+    <p-table #breedTable [scrollable]="true" [resizableColumns]="true" [paginator]="true" [value]="results.breeds"
+        [rows]="rows" selectionMode="single">
+        <ng-template pTemplate="header">
+            <tr class="table-header-shadow">
+                <th pSortableColumn="title">
+                    <div class="d-flex justify-content-between align-items-center">
+                        Breed
+                        <p-sortIcon field="title"></p-sortIcon>
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" ngFor let-result [ngForOf]="results.breeds" let-i="index">
+            <tr>
+                <td>{{result.name}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="12">
+                    <app-no-data-found></app-no-data-found>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div class="top-container mt-5 pt-5 w-100 p-3 d-flex justify-content-between align-items-end">
+    <h2>Category</h2>
+    <button type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog(false)">
+        Add Category
+    </button>
+</div>
+<div class="ms-3 me-3">
+    <hr>
+</div>
+<div class="table-container p-3">
+    <p-table #categoryTable [scrollable]="true" [resizableColumns]="true" [paginator]="true" [value]="results.categories"
+        [rows]="rows" selectionMode="single">
+        <ng-template pTemplate="header">
+            <tr class="table-header-shadow">
+                <th pSortableColumn="title">
+                    <div class="d-flex justify-content-between align-items-center">
+                        Category
+                        <p-sortIcon field="title"></p-sortIcon>
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" ngFor let-result [ngForOf]="results.categories" let-i="index">
+            <tr>
+                <td>{{result.name}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="12">
+                    <app-no-data-found></app-no-data-found>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-dialog [draggable]="false" header="{{ isBreed ? 'Add Breed' : 'Add Category' }}" [(visible)]="isVisible">
+    <form [formGroup]="masterForm" class="mb-5" (ngSubmit)="isBreed ? addBreed() : addCategory()">
+        <div *ngIf="!isBreed" class="d-flex gap-2">
+            <div *ngIf="isBreed" class="ps-0 mb-2">
+                <div class="required dropdown pe-3 mb-2">
+                    Breed
+                </div>
+                <input formControlName="name" placeholder="Type down pet breed here" type="text"
+                class="w-100" id="seller-master-breed">
+            </div>
+            <div *ngIf="!isBreed" class="ps-0 mb-2">
+                <div class="required pe-3 mb-2">
+                    Category
+                </div>
+                <input formControlName="name" placeholder="Type down pet category here" type="text"
+                class="w-100" id="seller-master-category">
+            </div>
+        </div>
+        <div class="fixed-bottom dialog-footer w-100 d-flex justify-content-end p-3">
+            <button type="button" icon="pi pi-check" (click)="isVisible = false"
+                class="btn btn-outline-dark rounded-2 dialog-button me-3">Cancel</button>
+            <button [disabled]="masterForm.invalid" icon="pi pi-check" type="submit"
+                class="btn btn-dark rounded-2 dialog-button">Save</button>
+        </div>
+    </form>
+</p-dialog>

@@ -13,4 +13,6 @@ public class MessageViewDto
     public bool IsSenderUser { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public bool IsFile { get; set; }
 }

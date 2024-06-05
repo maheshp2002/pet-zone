@@ -17,6 +17,8 @@ import { FiltersComponent } from './filters/filters.component';
 import { GridComponent } from './grid/grid.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { PetDetailsComponent } from './pet-details/pet-details.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { PetDetailsComponent } from './pet-details/pet-details.component';
     FontAwesomeModule,
     FileUploadModule,
     DropdownModule,
-    
+    ChatbotComponent,
+    MatIconModule
   ],
   providers: [ConfirmationService]
 })

@@ -68,6 +68,7 @@ builder.Services.AddScoped<MasterService>();
 builder.Services.AddScoped<PetDetailsService>();
 builder.Services.AddScoped<MailService>();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection(nameof(MailSettings)));
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -75,9 +76,10 @@ app.UseHttpsRedirection();
 
 app.UseCors(options =>
 {
-    options.AllowAnyHeader();
-    options.AllowAnyMethod();
-    options.AllowAnyOrigin();
+    options.WithOrigins("http://localhost:4200")
+           .AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowCredentials();
 });
 
 app.UseSwagger();
@@ -90,9 +92,25 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/images"
 });
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "PetImages")),
+    RequestPath = "/petImages"
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "ChatImages")),
+    RequestPath = "/chatImages"
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

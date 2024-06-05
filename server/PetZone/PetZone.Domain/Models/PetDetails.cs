@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace PetZone.Domain.Models;
@@ -22,14 +23,15 @@ public class PetDetails
     public bool? Status { get; set; }
 
     // Backing field for Images
-    private string? _images;
-
     [NotMapped]
-    public List<string>? Images
+    public List<string>? Images { get; set; }
+
+    public string? SerializedImages
     {
-        get => _images?.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        set => _images = value != null ? string.Join(";", value) : null;
+        get => Images != null ? JsonSerializer.Serialize(Images) : null;
+        set => Images = !string.IsNullOrEmpty(value) ? JsonSerializer.Deserialize<List<string>>(value) : new List<string>();
     }
+
     [ForeignKey(nameof(BreedId))]
     public int BreedId { get; set; }
 

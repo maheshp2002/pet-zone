@@ -25,7 +25,7 @@ export class PetDetailsComponent implements OnInit {
     sex: '',
     color: '',
     availability: 0,
-    sellerId: 0,
+    sellerId: '',
     sellerName: '',
     sellerAddress: '',
     price: 0,
@@ -128,9 +128,8 @@ export class PetDetailsComponent implements OnInit {
   }
 
   onContactClick() {
-    const userId = this.tokenHelper.getDecodedToken().nameidentifier;
     const model: IAddChatDto = {
-      sellerId: userId,
+      sellerId: this.petDetails.sellerId,
       petDetailsId: this.petDetails.petId,
       isBlockedOrRemoved: false
     }

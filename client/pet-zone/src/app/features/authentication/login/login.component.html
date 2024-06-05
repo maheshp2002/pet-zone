@@ -32,10 +32,7 @@
                                     invalidPassword: message.allowedCharacters
                             }"></app-error-message>
             </div>
-            <button [disabled]="loginForm.invalid" type="submit" class="btn btn-outline-dark rounded-5 login-button">Login</button>
-            <a [routerLink]="['/forgot-password']" id="admin-login-link" class="forgot-password-link mt-5">
-                Forgot Password
-            </a>
+            <button [disabled]="loginForm.invalid" type="submit" class="btn btn-outline-dark rounded-5 login-button">Login</button> 
             <a [routerLink]="['/signup']" id="admin-login-link" class="signup-link mt-3">
                 Don't have an account? Click here to register.
             </a>

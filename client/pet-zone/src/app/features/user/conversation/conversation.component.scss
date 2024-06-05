@@ -1,0 +1,43 @@
+.conversation-container {
+    max-height: 200px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+  
+  .message-container {
+    display: flex;
+    align-items: flex-start;
+    margin: 10px 0;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .avatar img {
+    width: 100%;
+    border-radius: 50%;
+  }
+  
+  .message {
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 70%;
+    overflow-wrap: break-word;
+  }
+
+.user-message{
+    align-items: flex-start;
+    flex-direction: row-reverse;
+
+    .message {
+        background-color: white;
+      }
+  }
+  
+  .bot-message .message {
+    background-color: #f3f3f3;
+  }
+  

@@ -1,0 +1,11 @@
+<div #conversationContainer class="conversation-container">
+    <div *ngFor="let message of messages" class="message-container" [ngClass]="{'user-message': message.from === 'user', 'bot-message': message.from === 'bot'}">
+      <div *ngIf="message.avatar" class="avatar">
+        <img src="{{ message.avatar }}" alt="Avatar">
+      </div>
+      <div class="message">
+        <p>{{ message.text }}</p>
+      </div>
+    </div>
+  </div>
+  

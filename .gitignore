@@ -366,6 +366,8 @@ AI-Llama-2-Chatbot-main
 
 # Ignore all contents of Images
 /server/PetZone/PetZone.Api/Images/*
+/server/PetZone/PetZone.Api/PetImages/*
+/server/PetZone/PetZone.Api/ChatImages/*
 
 # Except this file
 !/server/PetZone/PetZone.Api/Images/.gitkeep

@@ -13,7 +13,8 @@ export interface IGetMessageDto {
     date: string
     content: string
     isSenderUser: boolean
-    isMessageDeleted: boolean 
+    isMessageDeleted: boolean
+    isFile: boolean
 }
 
 export interface IBlockOrRemoveChat {
@@ -32,4 +33,5 @@ export interface IAddMessageDto {
     sellerId: string
     petDetailsId: number
     isBlockedOrRemoved: boolean
+    isFile: boolean
 }

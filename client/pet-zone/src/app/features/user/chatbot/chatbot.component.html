@@ -1,0 +1,14 @@
+<div class="chatbot-icon" (click)="toggleChatbox()">
+  <i class="pi pi-comments"></i>
+</div>
+
+<div class="chatbox" [ngClass]="{ open: chatboxOpen }">
+    <div class="header">
+      <h2>Pet Assistant!</h2>
+      <h6 class="right-align mt-2 mb-2">- Powered by ClawLink</h6>
+    </div>
+    <app-conversation class="chatbox-conversation" [messages]="messages"></app-conversation>
+    <div class="footer">
+      <app-prompt (textChange)="handlePromptChange($event)"></app-prompt>
+    </div>
+</div>

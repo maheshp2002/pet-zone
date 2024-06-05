@@ -91,3 +91,15 @@
         background-color: $secondary-color;
     }
 }
+
+.p-inputtext {
+    width: 100% !important;
+    display: block;
+    height: 56px !important;
+}
+
+.file-upload {
+    button, [type=button], [type=reset], [type=submit] {
+        visibility: hidden;
+    }
+}

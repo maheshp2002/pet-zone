@@ -18,7 +18,7 @@ public class SellerController : SellerControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllPetDetails()
     {
-        var result = await _petDetailService.GetAllPetDetailsAsync();
+        var result = await _petDetailService.GetAllPetDetailsAsync(true);
         if (result.IsValid)
             return Ok(result);
 
@@ -28,7 +28,7 @@ public class SellerController : SellerControllerBase
     [HttpPost("pet-details")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> AddPetDetails(PetDetailsDto dto)
+    public async Task<IActionResult> AddPetDetails([FromForm] PetDetailsDto dto)
     {
         var result = await _petDetailService.PetDetailsAsync(dto);
         if (result.IsValid)
@@ -40,7 +40,7 @@ public class SellerController : SellerControllerBase
     [HttpPut("pet-details")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdatePetDetails(PetDetailsDto dto)
+    public async Task<IActionResult> UpdatePetDetails([FromForm] PetDetailsDto dto)
     {
         var result = await _petDetailService.PetDetailsAsync(dto);
         if (result.IsValid)

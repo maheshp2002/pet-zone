@@ -76,7 +76,7 @@ public class ChatController : ChatControllerBase
     [HttpPost("message")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> AddMessage(AddMessageDto dto)
+    public async Task<IActionResult> AddMessage([FromForm] AddMessageDto dto)
     {
         string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

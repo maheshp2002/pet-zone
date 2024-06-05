@@ -1,26 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using PetZone.Domain.Models;
 using PetZone.Service.Data;
 using PetZone.Services.Dto;
-using System.Globalization;
-using System.Security.Claims;
+using PetZone.Services.Services;
 
 namespace talent_portal.Service.Services;
 
 public class ChatService
 {
     private readonly ApplicationDbContext _db;
+    private readonly IHubContext<ChatHub> _hubContext;
 
-    public ChatService(ApplicationDbContext db)
+    public ChatService(ApplicationDbContext db, IHubContext<ChatHub> hubContext)
     {
         _db = db;
+        _hubContext = hubContext;
     }
 
     public async Task<ServiceResponse<List<ChatViewDto>>> GetAllChatsAsync(string userId)
     {
         var response = new ServiceResponse<List<ChatViewDto>>();
-
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
 
         var result = await _db.Chats
             .Include(x => x.PetDetails)
@@ -35,7 +35,7 @@ public class ChatService
                 Id = c.Id,
                 CreatedAt = c.CreatedAt,
                 ChatName = $"{c.PetDetails.Breed.Name} {c.PetDetails.Category.Name} {c.User.Name} {c.Seller.Name}",
-                Icon = c.Icon,
+                Icon = $"https://localhost:7224/{c.Icon}",
                 IsBlocked = c.IsBlocked,
                 IsRemoved = c.IsRemoved
             }).ToListAsync();
@@ -48,8 +48,6 @@ public class ChatService
     public async Task<ServiceResponse<int>> CreateChatsAsync(string userId, CreateChatDto dto)
     {
         var response = new ServiceResponse<int>();
-
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
 
         var chat = _db.Chats.FirstOrDefault(x => x.User.Id == userId && x.Seller.Id == dto.SellerId && x.PetDetails.Id == dto.PetDetailsId);
         var petIcon = _db.PetDetails.FirstOrDefault(x => x.Id == dto.PetDetailsId);
@@ -86,8 +84,6 @@ public class ChatService
     {
         var response = new ServiceResponse<int>();
 
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
-
         var result = _db.Chats.FirstOrDefault(x => x.User.Id == userId && x.Seller.Id == dto.SellerId && x.PetDetails.Id == dto.PetDetailsId);
 
         if (result == null)
@@ -111,8 +107,6 @@ public class ChatService
     public async Task<ServiceResponse<int>> RemoveChatsAsync(string userId, BlockOrRemoveChatDto dto)
     {
         var response = new ServiceResponse<int>();
-
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
 
         var result = _db.Chats.FirstOrDefault(x => x.User.Id == userId && x.Seller.Id == dto.SellerId && x.PetDetails.Id == dto.PetDetailsId);
 
@@ -138,8 +132,6 @@ public class ChatService
     {
         var response = new ServiceResponse<List<MessageViewDto>>();
 
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
-
         var result = await _db.Messages
             .Where(x => x.ChatId == chatId && !x.IsDeleted)
             .OrderBy(x => x.Time)
@@ -148,9 +140,10 @@ public class ChatService
                 Id = c.Id,
                 Time = c.Time.HasValue ? c.Time.Value.ToString("yyyy-MM-dd") : "", // Format Time as "2020-02-02"
                 Date = c.Time.HasValue ? c.Time.Value.ToString("ddd-MMM-dd") : "", // Format Date as "Thu-Mar-20"
-                Content = c.Content,
+                Content = c.IsFile ? $"https://localhost:7224/{c.Content}" : c.Content,
                 IsSenderUser = c.SenderId == userId ? true : false,
-                IsDeleted = c.IsDeleted
+                IsDeleted = c.IsDeleted,
+                IsFile = c.IsFile
             })
             .ToListAsync();
 
@@ -163,20 +156,54 @@ public class ChatService
     {
         var response = new ServiceResponse<int>();
 
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
+        string? content;
+
+        if (dto.IsFile)
+        {
+            string fileName = dto.File!.FileName;
+            string fileExtension = Path.GetExtension(fileName).ToLower();
+
+            string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+            string uploadsDir = Path.Join("ChatImages", uniqueFileName);
+
+            using (var fileStream = new FileStream(uploadsDir, FileMode.Create))
+            {
+                await dto.File!.CopyToAsync(fileStream);
+            }
+
+            content = uploadsDir;
+        }
+        else
+        {
+            content = dto.Content;
+        }
 
         var result = new Message
         {
             Time = DateTime.Now,
-            Content = dto.Content,
+            Content = content,
             ChatId = dto.ChatId,
             SenderId = userId,
-            IsDeleted = false
+            IsDeleted = false,
+            IsFile = dto.IsFile
         };
 
         await _db.Messages.AddAsync(result);
 
         await _db.SaveChangesAsync();
+
+        var messageDto = new MessageViewDto
+        {
+            Id = result.Id,
+            Time = result.Time.HasValue ? result.Time.Value.ToString("yyyy-MM-dd") : "",
+            Date = result.Time.HasValue ? result.Time.Value.ToString("ddd-MMM-dd") : "",
+            Content = result.IsFile ? $"https://localhost:7224/{result.Content}" : result.Content,
+            IsSenderUser = result.SenderId == userId,
+            IsDeleted = result.IsDeleted,
+            IsFile = result.IsFile
+        };
+
+        await _hubContext.Clients.All.SendAsync("NewMessage", dto.ChatId, messageDto);
 
         response.Result = result.Id;
 
@@ -186,8 +213,6 @@ public class ChatService
     public async Task<ServiceResponse<int>> RemoveMessageAsync(AddMessageDto dto)
     {
         var response = new ServiceResponse<int>();
-
-        //var (userId, role) = ExtractUserIdAndRoleFromToken(token);
 
         var result = _db.Messages.FirstOrDefault(x => x.ChatId == dto.ChatId);
 
@@ -201,28 +226,11 @@ public class ChatService
 
         await _db.SaveChangesAsync();
 
+        // Notify clients
+        await _hubContext.Clients.All.SendAsync("MessageRemoved", result.Id);
+
         response.Result = result.Id;
 
         return response;
-    }
-
-    // Handle jwt token decode
-    private (string userId, string role) ExtractUserIdAndRoleFromToken(string token)
-    {
-        var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-        var jwtToken = tokenHandler.ReadToken(token) as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
-
-        if (jwtToken != null)
-        {
-            var userIdClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
-
-            if (userIdClaim != null && roleClaim != null)
-            {
-                return (userIdClaim.Value, roleClaim.Value);
-            }
-        }
-
-        return (string.Empty, string.Empty);
     }
 }

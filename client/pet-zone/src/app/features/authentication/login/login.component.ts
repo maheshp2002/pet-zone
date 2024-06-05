@@ -74,8 +74,11 @@ export class LoginComponent implements OnInit {
   
         if (role === "User") {
           this.router.navigateByUrl('/user');
-        } else {
-          this.router.navigateByUrl('/admin/homepage');
+        } else if (role === "Seller") {
+          this.router.navigateByUrl('/seller');
+        } 
+        else {
+          this.router.navigateByUrl('/admin');
         }
       },
 
