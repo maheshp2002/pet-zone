@@ -63,31 +63,20 @@ a {
     }
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.border-right {
+    border-right: 1px solid black;
+}
+
 .form-input-control {
     position: relative;
     padding: 15px;
 
     input {
         height: 56px;
-        border: 1px solid #7F7F7F;
-        border-radius: 5px;
-        padding: 15px;
-
-        &:focus,
-        &:active {
-            outline: none;
-            box-shadow: 0 0 1px orange;
-            border: 1px solid orange;
-        }
-
-        &.ng-dirty.ng-invalid {
-            border-color: red;
-            box-shadow: none;
-        }
-    }
-
-    textarea {
-        max-height: 100px;
         border: 1px solid #7F7F7F;
         border-radius: 5px;
         padding: 15px;

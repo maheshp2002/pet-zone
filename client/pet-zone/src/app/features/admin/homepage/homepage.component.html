@@ -1,13 +1,19 @@
 <div class="top-container mt-5 pt-5 w-100 p-3 d-flex justify-content-between align-items-end">
-    <h2>Breeds</h2>
-    <button type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog(false)">
+    <div class="d-flex">
+        <h2 [ngClass]="isBreed ? 'text-dark' : 'text-secondary'" class="cursor-pointer border-right pe-2 me-2" (click)="isBreed = true">Breeds</h2>
+        <h2 [ngClass]="!isBreed ? 'text-dark' : 'text-secondary'" class="cursor-pointer" (click)="isBreed = false">Category</h2>
+    </div>
+    <button *ngIf="!isBreed" type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog()">
+        Add Category
+    </button>
+    <button *ngIf="isBreed" type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog()">
         Add Breed
     </button>
 </div>
 <div class="ms-3 me-3">
     <hr>
 </div>
-<div class="table-container p-3">
+<div *ngIf="isBreed" class="table-container p-3">
     <p-table #breedTable [scrollable]="true" [resizableColumns]="true" [paginator]="true" [value]="results.breeds"
         [rows]="rows" selectionMode="single">
         <ng-template pTemplate="header">
@@ -34,16 +40,7 @@
         </ng-template>
     </p-table>
 </div>
-<div class="top-container mt-5 pt-5 w-100 p-3 d-flex justify-content-between align-items-end">
-    <h2>Category</h2>
-    <button type="submit" class="btn btn-outline-warning rounded-2 add-button" (click)="openDialog(false)">
-        Add Category
-    </button>
-</div>
-<div class="ms-3 me-3">
-    <hr>
-</div>
-<div class="table-container p-3">
+<div *ngIf="!isBreed" class="table-container p-3">
     <p-table #categoryTable [scrollable]="true" [resizableColumns]="true" [paginator]="true" [value]="results.categories"
         [rows]="rows" selectionMode="single">
         <ng-template pTemplate="header">
@@ -72,7 +69,7 @@
 </div>
 <p-dialog [draggable]="false" header="{{ isBreed ? 'Add Breed' : 'Add Category' }}" [(visible)]="isVisible">
     <form [formGroup]="masterForm" class="mb-5" (ngSubmit)="isBreed ? addBreed() : addCategory()">
-        <div *ngIf="!isBreed" class="d-flex gap-2">
+        <div class="d-flex gap-2 form-input-control">
             <div *ngIf="isBreed" class="ps-0 mb-2">
                 <div class="required dropdown pe-3 mb-2">
                     Breed

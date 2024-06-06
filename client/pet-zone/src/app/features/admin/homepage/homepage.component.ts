@@ -110,6 +110,7 @@ export class HomepageComponent implements OnInit {
           severity: ToastTypes.SUCCESS,
           summary: 'Pet Category Updated Successfully'
         });
+        this.masterForm.patchValue({name: ''})
       },
       
       error: () => {
@@ -127,7 +128,7 @@ export class HomepageComponent implements OnInit {
     return pet.petId;
   }
 
-  openDialog(isBreed: boolean) {
-    this.isBreed = isBreed;
+  openDialog() {
+    this.isVisible = true;
   }
 }
