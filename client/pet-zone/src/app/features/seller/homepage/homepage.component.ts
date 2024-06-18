@@ -270,6 +270,7 @@ export class HomepageComponent implements OnInit {
     });
     this.preloader.hide();
     this.petDetailsForm.patchValue({});
+    window.location.reload()
   }  
 
   onUpdate() {
