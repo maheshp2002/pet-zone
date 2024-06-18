@@ -23,8 +23,8 @@ export class PetDetailsService {
         return this.http.get(this.petDetailsUserUrl + "/pet-details/" + id);
     }
 
-    getAllPetDetailsSeller() {
-        return this.http.get(this.petDetailsSellerUrl + "/pet-details");
+    getAllPetDetailsSeller(userId: string) {
+        return this.http.get(this.petDetailsSellerUrl + "/pet-details/" + userId);
     }
 
     addPetDetails(model: FormData) {

@@ -64,7 +64,7 @@ export class HomepageComponent implements OnInit {
 
     this.petDetailsForm.patchValue({sellerId: userId});
 
-    this.service.getAllPetDetailsSeller().subscribe({
+    this.service.getAllPetDetailsSeller(userId).subscribe({
       next: (response: any) => {
         this.preloader.hide();
         this.results = response.result;
@@ -125,7 +125,7 @@ export class HomepageComponent implements OnInit {
 
   buildPetDetailsForm() {
     this.petDetailsForm = this.fb.group({
-      id: [null],
+      id: [0],
       breed: [0,
         [Validators.required]
       ],
@@ -152,7 +152,7 @@ export class HomepageComponent implements OnInit {
     this.isEdit = isEdit;
     if (!isEdit) {
       this.petDetailsForm.reset({
-        id: null,
+        id: 0,
         breed: 0,
         category: 0,
         age: '',

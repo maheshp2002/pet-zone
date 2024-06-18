@@ -13,12 +13,12 @@ public class SellerController : SellerControllerBase
         _petDetailService = service;
     }
 
-    [HttpGet("pet-details")]
+    [HttpGet("pet-details/{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetAllPetDetails()
+    public async Task<IActionResult> GetAllPetDetails(string userId)
     {
-        var result = await _petDetailService.GetAllPetDetailsAsync(true);
+        var result = await _petDetailService.GetAllPetDetailsAsync(true, userId);
         if (result.IsValid)
             return Ok(result);
 

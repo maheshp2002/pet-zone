@@ -15,7 +15,7 @@ public class PetDetailsService
         _db = db;
     }
 
-    public async Task<ServiceResponse<List<PetDetailsViewDto>>> GetAllPetDetailsAsync(bool isSeller)
+    public async Task<ServiceResponse<List<PetDetailsViewDto>>> GetAllPetDetailsAsync(bool isSeller, string userId)
     {
         var response = new ServiceResponse<List<PetDetailsViewDto>>();
 
@@ -38,7 +38,30 @@ public class PetDetailsService
         }
 
         // Transform the result into DTOs with updated image URLs
-        var dtoList = result.Select(c =>
+        var dtoList = isSeller ? result.Where(x => x.SellerId == userId).Select(c =>
+        {
+            var imageUrlPrefix = "https://localhost:7224/";
+            var transformedImages = c.Images?.Select(image => imageUrlPrefix + image).ToList();
+
+            return new PetDetailsViewDto
+            {
+                PetId = c.Id,
+                Age = c.Age,
+                Breed = c.Breed!.Name,
+                Sex = c.Sex,
+                Color = c.Color,
+                Availability = c.Availability,
+                SellerId = c.SellerId,
+                SellerName = c.Seller!.Name,
+                SellerAddress = $"{c.Seller.BuildingName} {c.Seller.StreetAddress} {c.Seller.City} {c.Seller.State} {c.Seller.Country} \r\n Pincode: {c.Seller.PinCode}",
+                Description = c.Description,
+                Price = c.Price,
+                Images = transformedImages,
+                Category = c.Category!.Name,
+                Status = c.Status
+            };
+        }).ToList() 
+        : result.Select(c =>
         {
             var imageUrlPrefix = "https://localhost:7224/";
             var transformedImages = c.Images?.Select(image => imageUrlPrefix + image).ToList();
@@ -111,7 +134,7 @@ public class PetDetailsService
     {
         var response = new ServiceResponse<int>();
 
-        if (!dto.Id.HasValue)
+        if (dto.Id == 0)
         {
             var result = new PetDetails
             {
