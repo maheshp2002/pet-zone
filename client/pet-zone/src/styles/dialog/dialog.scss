@@ -8,3 +8,11 @@
 .p-dialog .p-dialog-header {
     padding-bottom: 0px !important;
 }
+
+.dialog-height {
+    .p-dialog{
+        .p-dialog-content {
+            height: 200px !important;
+        }
+    }
+}

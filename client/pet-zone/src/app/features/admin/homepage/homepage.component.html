@@ -67,7 +67,7 @@
         </ng-template>
     </p-table>
 </div>
-<p-dialog [draggable]="false" header="{{ isBreed ? 'Add Breed' : 'Add Category' }}" [(visible)]="isVisible">
+<p-dialog class="dialog-height" [draggable]="false" header="{{ isBreed ? 'Add Breed' : 'Add Category' }}" [(visible)]="isVisible">
     <form [formGroup]="masterForm" class="mb-5" (ngSubmit)="isBreed ? addBreed() : addCategory()">
         <div class="d-flex gap-2 form-input-control">
             <div *ngIf="isBreed" class="ps-0 mb-2">

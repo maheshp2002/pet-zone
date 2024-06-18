@@ -67,7 +67,7 @@ export class SignupComponent implements OnInit {
       state: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
       country: ['', [Validators.required, Validators.maxLength(50), Validators.minLength(3)]],
       pinCode: ['', [Validators.required, Validators.minLength(6)]],
-      isSeller: [false],
+      role: [false],
     })
   }
 
