@@ -260,6 +260,7 @@ export class HomepageComponent implements OnInit {
           summary: 'Pet details added successfully'
         });
         this.getPets();
+        window.location.reload()
       },
       error: () => {
         this.toast.add({
@@ -270,7 +271,6 @@ export class HomepageComponent implements OnInit {
     });
     this.preloader.hide();
     this.petDetailsForm.patchValue({});
-    window.location.reload()
   }  
 
   onUpdate() {
