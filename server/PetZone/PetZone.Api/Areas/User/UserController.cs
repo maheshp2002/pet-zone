@@ -12,7 +12,7 @@ public class UserController : UserControllerBase
         _petDetailService = service;
     }
 
-    [HttpGet("pet-details/{userId}")]
+    [HttpGet("pet/{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllPetDetails(string userId)

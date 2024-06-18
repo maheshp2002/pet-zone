@@ -5,6 +5,7 @@ import { ToastTypes } from 'src/app/core/enums';
 import { IPetDetailsDto } from 'src/app/core/interfaces/IPetDetailsDto';
 import { PetDetailsService } from 'src/app/core/services/petDetails.service';
 import { PreLoaderService } from 'src/app/core/services/preloader.service';
+import { TokenHelper } from 'src/app/core/utilities/helpers/token.helper';
 
 @Component({
   selector: 'app-filters',
@@ -46,7 +47,8 @@ export class FiltersComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly service: PetDetailsService,
     private readonly messageService: MessageService,
-    private readonly preloaderService: PreLoaderService
+    private readonly preloaderService: PreLoaderService,
+    private readonly tokenHelper: TokenHelper
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +60,9 @@ export class FiltersComponent implements OnInit {
   }
 
   getPetList() {
-    this.service.getAllPetDetailsUser().subscribe({
+    var userId = this.tokenHelper.getDecodedToken().nameidentifier;
+
+    this.service.getAllPetDetailsUser(userId).subscribe({
       next: (response: any) => {
         this.pets = this.initialPets = response.result;  
         this.petsChange.emit(this.pets);

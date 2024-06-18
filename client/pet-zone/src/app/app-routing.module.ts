@@ -17,12 +17,12 @@ const routes: Routes = [
   },
   {
     path: 'chats',  
-    canActivate: [UserGuard, SellerGuard],  
+    // canActivate: [UserGuard, SellerGuard],  
     loadChildren: () => import('./features/chats/chats.module').then((m) => m.ChatsModule)
   },
   {
     path: 'admin',  
-    // canActivate: [AdminGuard],  
+    canActivate: [AdminGuard],  
     loadChildren: () => import('./features/admin/admin.module').then((m) => m.AdminModule)
   },
   {

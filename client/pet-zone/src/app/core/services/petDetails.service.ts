@@ -15,8 +15,8 @@ export class PetDetailsService {
 
     }
 
-    getAllPetDetailsUser() {
-        return this.http.get(this.petDetailsUserUrl + "/pet-details");
+    getAllPetDetailsUser(userId: string) {
+        return this.http.get(this.petDetailsUserUrl + "/pet/" + userId);
     }
 
     getPetDetailsById(id: number) {
