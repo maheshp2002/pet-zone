@@ -1,6 +1,6 @@
-# Pet Marketplace App
+# ClawLink
 ## Overview
-The Pet Marketplace App is a platform where users can buy, sell, and adopt pets. The app connects pet lovers with sellers, breeders, and shelters, providing a seamless experience for finding the perfect pet.
+The ClawLink App is a platform where users can buy, sell, and adopt pets. The app connects pet lovers with sellers, breeders, and shelters, providing a seamless experience for finding the perfect pet.
 
 ## Features
 Browse Pets: View a wide variety of pets available for sale or adoption.
